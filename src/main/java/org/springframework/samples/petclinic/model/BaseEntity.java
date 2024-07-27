@@ -33,7 +33,7 @@ import jakarta.persistence.MappedSuperclass;
 public class BaseEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     public Integer getId() {

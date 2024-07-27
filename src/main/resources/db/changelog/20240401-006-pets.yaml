@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240401-006-pets.yaml
+      author: anbu
+      changes:
+        - createTable:
+            tableName: pets
+            remarks: pets table
+            columns:
+            - column:
+                name: id
+                type: integer
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: name
+                type: varchar(30)
+            - column:
+                name: birth_date
+                type: varchar(30)
+            - column:
+                name: type_id
+                type: integer
+                constraints:
+                  nullable: false
+            - column:
+                name: owner_id
+                type: integer
+        - createSequence:
+           cacheSize: 100
+           cycle: false
+           incrementBy: 50
+           minValue: 1
+           ordered: false
+           sequenceName: pets_seq
+           startValue: 1
+        - createIndex:
+            columns:
+              - column:
+                  name: name
+            indexName: idx_pets_name
+            tableName: pets
+        - addForeignKeyConstraint:
+            baseColumnNames: owner_id
+            baseTableName: pets
+            constraintName: fk_pets_owners
+            referencedColumnNames: id
+            referencedTableName: owners
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: type_id
+            baseTableName: pets
+            constraintName: fk_pets_types
+            referencedColumnNames: id
+            referencedTableName: types
+            validate: true

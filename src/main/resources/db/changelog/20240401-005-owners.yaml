@@ -1,11 +1,11 @@
 databaseChangeLog:
   - changeSet:
-      id: 20240401-vets-table.yaml
+      id: 20240401-005-owners.yaml
       author: anbu
       changes:
         - createTable:
-            tableName: vets
-            remarks: vets table
+            tableName: owners
+            remarks: owners table
             columns:
             - column:
                 name: id
@@ -19,12 +19,26 @@ databaseChangeLog:
             - column:
                 name: last_name
                 type: varchar(30)
+            - column:
+                name: address
+                type: varchar(255)
+            - column:
+                name: city
+                type: varchar(80)
+            - column:
+                name: telephone
+                type: varchar(20)
         - createSequence:
            cacheSize: 100
            cycle: false
            incrementBy: 50
            minValue: 1
            ordered: false
-           sequenceName: vets_seq
+           sequenceName: owners_seq
            startValue: 1
-
+        - createIndex:
+            columns:
+              - column:
+                  name: last_name
+            indexName: idx_owners_last_name
+            tableName: owners

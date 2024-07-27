@@ -7,3 +7,5 @@ The purpose of the project is to use this as a template for my new startup proje
 ## License
 
 The Spring PetClinic sample application is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
+
+The changes in this project is also licensed under [Apache License](LICENSE).

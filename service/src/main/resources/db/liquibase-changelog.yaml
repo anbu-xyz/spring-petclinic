@@ -6,7 +6,7 @@ databaseChangeLog:
       file: changelog/20240401-002-specialties.yaml
       relativeToChangelogFile: true
   - include:
-      file: changelog/20240401-003-vets-specialties.yaml
+      file: changelog/20240401-003-vet-specialties.yaml
       relativeToChangelogFile: true
   - include:
       file: changelog/20240401-004-types.yaml

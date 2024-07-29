@@ -37,6 +37,7 @@ import org.springframework.samples.petclinic.owner.Visit;
 import org.springframework.samples.petclinic.vet.Vet;
 import org.springframework.samples.petclinic.vet.VetRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -82,6 +83,7 @@ class ClinicServiceTests {
     Pageable pageable;
 
     @Test
+	@Sql("classpath:db/h2/data.sql")
     void shouldFindOwnersByLastName() {
         Page<Owner> owners = this.owners.findByLastName("Davis", pageable);
         assertThat(owners).hasSize(2);
@@ -91,6 +93,7 @@ class ClinicServiceTests {
     }
 
     @Test
+	@Sql("classpath:db/h2/data.sql")
     void shouldFindSingleOwnerWithPet() {
         Owner owner = this.owners.findById(1);
         assertThat(owner.getLastName()).startsWith("Franklin");
@@ -101,6 +104,7 @@ class ClinicServiceTests {
 
     @Test
     @Transactional
+	@Sql("classpath:db/h2/data.sql")
     void shouldInsertOwner() {
         Page<Owner> owners = this.owners.findByLastName("Schultz", pageable);
         int found = (int) owners.getTotalElements();
@@ -120,6 +124,7 @@ class ClinicServiceTests {
 
     @Test
     @Transactional
+	@Sql("classpath:db/h2/data.sql")
     void shouldUpdateOwner() {
         Owner owner = this.owners.findById(1);
         String oldLastName = owner.getLastName();
@@ -134,6 +139,7 @@ class ClinicServiceTests {
     }
 
     @Test
+	@Sql("classpath:db/h2/data.sql")
     void shouldFindAllPetTypes() {
         Collection<PetType> petTypes = this.owners.findPetTypes();
 
@@ -145,6 +151,7 @@ class ClinicServiceTests {
 
     @Test
     @Transactional
+	@Sql("classpath:db/h2/data.sql")
     void shouldInsertPetIntoDatabaseAndGenerateId() {
         Owner owner6 = this.owners.findById(6);
         int found = owner6.getPets().size();
@@ -168,6 +175,7 @@ class ClinicServiceTests {
 
     @Test
     @Transactional
+	@Sql("classpath:db/h2/data.sql")
     void shouldUpdatePetName() {
         Owner owner6 = this.owners.findById(6);
         Pet pet7 = owner6.getPet(7);
@@ -183,7 +191,8 @@ class ClinicServiceTests {
     }
 
     @Test
-    void shouldFindVets() {
+	@Sql("classpath:db/h2/data.sql")
+	void shouldFindVets() {
         Collection<Vet> vets = this.vets.findAll();
 
         Vet vet = EntityUtils.getById(vets, Vet.class, 3);
@@ -195,6 +204,7 @@ class ClinicServiceTests {
 
     @Test
     @Transactional
+	@Sql("classpath:db/h2/data.sql")
     void shouldAddNewVisitForPet() {
         Owner owner6 = this.owners.findById(6);
         Pet pet7 = owner6.getPet(7);
@@ -213,6 +223,7 @@ class ClinicServiceTests {
 	}
 
 	@Test
+	@Sql("classpath:db/h2/data.sql")
 	void shouldFindVisitsByPetId() {
 		Owner owner6 = this.owners.findById(6);
 		Pet pet7 = owner6.getPet(7);

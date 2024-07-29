@@ -15,7 +15,7 @@ pipeline {
                     githubNotify account: env.GITHUB_ACCOUNT, context: 'Jenkins', credentialsId: env.GITHUB_CREDENTIALS_ID, description: 'Building...', repo: env.GITHUB_REPO, sha: commitSHA, status: 'PENDING', targetUrl: ''
                     
                     // Your build steps here
-                    sh 'mvn -B -DskipTests clean package'
+                    sh 'mvn clean install'
                     
                     githubNotify account: env.GITHUB_ACCOUNT, context: 'Jenkins', credentialsId: env.GITHUB_CREDENTIALS_ID, description: 'Success', repo: env.GITHUB_REPO, sha: commitSHA, status: 'SUCCESS', targetUrl: ''
                 }

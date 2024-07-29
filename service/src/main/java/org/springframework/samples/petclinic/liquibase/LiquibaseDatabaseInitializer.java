@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 
-@Component
+@Service
 @Slf4j
 @RequiredArgsConstructor
 public class LiquibaseDatabaseInitializer implements InitializingBean {

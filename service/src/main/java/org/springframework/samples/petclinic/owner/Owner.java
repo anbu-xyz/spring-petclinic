@@ -15,9 +15,9 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.EqualsAndHashCode;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.util.Assert;
@@ -30,8 +30,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -44,41 +47,56 @@ import jakarta.validation.constraints.NotBlank;
  */
 @Entity
 @Table(name = "owners")
+@EqualsAndHashCode(of = {"id"})
 public class Owner extends Person {
 
-    @Column(name = "address")
-    @NotBlank
-    private String address;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Integer id;
 
-    @Column(name = "city")
-    @NotBlank
-    private String city;
+	@Override
+	public Integer getId() {
+		return id;
+	}
 
-    @Column(name = "telephone")
-    @NotBlank
-    @Pattern(regexp = "\\d{10}", message = "Telephone must be a 10-digit number")
-    private String telephone;
+	@Override
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id")
-    @OrderBy("name")
-    private List<Pet> pets = new ArrayList<>();
+	@Column(name = "address")
+	@NotBlank
+	private String address;
 
-    public String getAddress() {
-        return this.address;
-    }
+	@Column(name = "city")
+	@NotBlank
+	private String city;
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	@Column(name = "telephone")
+	@NotBlank
+	@Pattern(regexp = "\\d{10}", message = "Telephone must be a 10-digit number")
+	private String telephone;
 
-    public String getCity() {
-        return this.city;
-    }
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "owner_id")
+	@OrderBy("name")
+	private List<Pet> pets = new ArrayList<>();
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCity() {
+		return this.city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 	public String getTelephone() {
 		return this.telephone;
@@ -100,6 +118,7 @@ public class Owner extends Person {
 
 	/**
 	 * Return the Pet with the given name, or null if none found for this Owner.
+	 *
 	 * @param name to test
 	 * @return a pet if pet name is already in use
 	 */
@@ -109,6 +128,7 @@ public class Owner extends Person {
 
 	/**
 	 * Return the Pet with the given id, or null if none found for this Owner.
+	 *
 	 * @param id to test
 	 * @return a pet if pet id is already in use
 	 */
@@ -126,6 +146,7 @@ public class Owner extends Person {
 
 	/**
 	 * Return the Pet with the given name, or null if none found for this Owner.
+	 *
 	 * @param name to test
 	 * @return a pet if pet name is already in use
 	 */
@@ -156,6 +177,7 @@ public class Owner extends Person {
 
 	/**
 	 * Adds the given {@link Visit} to the {@link Pet} with the given identifier.
+	 *
 	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
 	 * @param visit the visit to add, must not be {@literal null}.
 	 */

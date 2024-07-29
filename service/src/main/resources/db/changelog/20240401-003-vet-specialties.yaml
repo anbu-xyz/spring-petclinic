@@ -1,28 +1,28 @@
 databaseChangeLog:
   - changeSet:
-      id: 20240401-003-vets-specialties.yaml
+      id: 20240401-003-vet-specialties.yaml
       author: anbu
       changes:
         - createTable:
-            tableName: vets_specialties
-            remarks: vets table
+            tableName: vet_specialties
+            remarks: vet specialities table
             columns:
             - column:
                 name: vet_id
                 type: integer
             - column:
-                name: speciality_id
+                name: specialty_id
                 type: integer
         - addForeignKeyConstraint:
             baseColumnNames: vet_id
-            baseTableName: vets_specialties
+            baseTableName: vet_specialties
             constraintName: fk_vet_specialties_vets
             referencedColumnNames: id
             referencedTableName: vets
             validate: true
         - addForeignKeyConstraint:
-            baseColumnNames: speciality_id
-            baseTableName: vets_specialties
+            baseColumnNames: specialty_id
+            baseTableName: vet_specialties
             constraintName: fk_vet_specialties_specialties
             referencedColumnNames: id
             referencedTableName: specialties

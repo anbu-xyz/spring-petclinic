@@ -9,12 +9,13 @@
     <version>3.3.0</version>
   </parent>
 
-  <groupId>org.springframework.samples</groupId>
+  <groupId>uk.anbu.spring.sample.petclinic</groupId>
   <artifactId>spring-petclinic</artifactId>
   <packaging>pom</packaging>
   <version>3.3.0-SNAPSHOT</version>
   <modules>
-    <module>service</module>
+    <module>domain-objects</module>
+    <module>spring-petclinic-service</module>
   </modules>
 
   <properties>

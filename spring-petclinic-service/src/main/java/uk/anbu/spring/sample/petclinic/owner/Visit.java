@@ -17,10 +17,15 @@ package uk.anbu.spring.sample.petclinic.owner;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -33,7 +38,13 @@ import jakarta.validation.constraints.NotBlank;
  */
 @Entity
 @Table(name = "visits")
-public class Visit extends BaseEntity {
+@Data
+@NoArgsConstructor
+public class Visit implements BaseEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Integer id;
 
     @Column(name = "visit_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -45,8 +56,9 @@ public class Visit extends BaseEntity {
     /**
      * Creates a new instance of Visit for the current date
      */
-    public Visit() {
-        this.date = LocalDate.now();
+    public Visit(Integer id) {
+		this.id = id;
+		this.date = LocalDate.now();
     }
 
     public LocalDate getDate() {

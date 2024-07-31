@@ -17,9 +17,10 @@ package uk.anbu.spring.sample.petclinic.owner;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.core.style.ToStringCreator;
-import uk.anbu.spring.sample.petclinic.model.Person;
+import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 import org.springframework.util.Assert;
 
 import jakarta.persistence.CascadeType;
@@ -48,21 +49,20 @@ import java.util.List;
 @Entity
 @Table(name = "owners")
 @EqualsAndHashCode(of = {"id"})
-public class Owner extends Person {
+@Data
+public class Owner implements BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
-	@Override
-	public Integer getId() {
-		return id;
-	}
+	@Column(name = "first_name")
+	@NotBlank
+	private String firstName;
 
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	@Column(name = "last_name")
+	@NotBlank
+	private String lastName;
 
 	@Column(name = "address")
 	@NotBlank
@@ -81,30 +81,6 @@ public class Owner extends Person {
 	@JoinColumn(name = "owner_id")
 	@OrderBy("name")
 	private List<Pet> pets = new ArrayList<>();
-
-	public String getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getCity() {
-		return this.city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getTelephone() {
-		return this.telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
 
 	public List<Pet> getPets() {
 		return this.pets;

@@ -27,6 +27,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import uk.anbu.spring.sample.petclinic.owner.Owner;
 
 /**
  * @author Michael Isvy Simple test to make sure that Bean Validation is working (useful
@@ -44,15 +45,18 @@ class ValidatorTests {
     void shouldNotValidateWhenFirstNameEmpty() {
 
         LocaleContextHolder.setLocale(Locale.ENGLISH);
-        Person person = new Person();
-        person.setFirstName("");
-        person.setLastName("smith");
+        var owner = new Owner();
+		owner.setFirstName("");
+		owner.setLastName("smith");
+		owner.setCity("Angel City");
+		owner.setAddress("20, Honey Blvd");
+		owner.setTelephone("1234567890");
 
         Validator validator = createValidator();
-        Set<ConstraintViolation<Person>> constraintViolations = validator.validate(person);
+        Set<ConstraintViolation<Owner>> constraintViolations = validator.validate(owner);
 
         assertThat(constraintViolations).hasSize(1);
-        ConstraintViolation<Person> violation = constraintViolations.iterator().next();
+        ConstraintViolation<Owner> violation = constraintViolations.iterator().next();
         assertThat(violation.getPropertyPath()).hasToString("firstName");
         assertThat(violation.getMessage()).isEqualTo("must not be blank");
     }

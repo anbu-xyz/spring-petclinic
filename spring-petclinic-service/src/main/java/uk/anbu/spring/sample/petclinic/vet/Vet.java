@@ -23,8 +23,11 @@ import java.util.Set;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
-import uk.anbu.spring.sample.petclinic.model.Person;
+import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -32,7 +35,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.xml.bind.annotation.XmlElement;
-
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 /**
  * Simple JavaBean domain object representing a veterinarian.
  *
@@ -43,7 +48,20 @@ import jakarta.xml.bind.annotation.XmlElement;
  */
 @Entity
 @Table(name = "vets")
-public class Vet extends Person {
+@Data
+public class Vet implements BaseEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Integer id;
+
+	@Column(name = "first_name")
+	@NotBlank
+	private String firstName;
+
+	@Column(name = "last_name")
+	@NotBlank
+	private String lastName;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),

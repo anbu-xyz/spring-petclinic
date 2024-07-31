@@ -16,10 +16,10 @@
 package uk.anbu.spring.sample.petclinic.owner;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import uk.anbu.spring.sample.petclinic.model.NamedEntity;
 
@@ -42,6 +42,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "pets")
+@Data
 public class Pet extends NamedEntity {
 
     @Column(name = "birth_date")
@@ -56,26 +57,6 @@ public class Pet extends NamedEntity {
     @JoinColumn(name = "pet_id")
     @OrderBy("visit_date ASC")
     private Set<Visit> visits = new LinkedHashSet<>();
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public LocalDate getBirthDate() {
-        return this.birthDate;
-    }
-
-    public PetType getType() {
-        return this.type;
-    }
-
-    public void setType(PetType type) {
-        this.type = type;
-    }
-
-    public Collection<Visit> getVisits() {
-        return this.visits;
-    }
 
     public void addVisit(Visit visit) {
         getVisits().add(visit);

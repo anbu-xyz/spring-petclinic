@@ -19,7 +19,6 @@ package uk.anbu.spring.sample.petclinic;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
 import uk.anbu.spring.sample.petclinic.model.BaseEntity;
-import uk.anbu.spring.sample.petclinic.model.Person;
 import uk.anbu.spring.sample.petclinic.vet.Vet;
 
 public class PetClinicRuntimeHints implements RuntimeHintsRegistrar {
@@ -31,7 +30,6 @@ public class PetClinicRuntimeHints implements RuntimeHintsRegistrar {
         hints.resources().registerPattern("META-INF/resources/webjars/*");
         hints.resources().registerPattern("mysql-default-conf");
         hints.serialization().registerType(BaseEntity.class);
-        hints.serialization().registerType(Person.class);
         hints.serialization().registerType(Vet.class);
     }
 

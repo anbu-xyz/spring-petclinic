@@ -20,8 +20,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
-import uk.anbu.spring.sample.petclinic.model.NamedEntity;
+import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -33,6 +34,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 /**
  * Simple business object representing a pet.
  *
@@ -43,23 +48,34 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "pets")
 @Data
-public class Pet extends NamedEntity {
+@EqualsAndHashCode(of = "name")
+public class Pet implements BaseEntity {
 
-    @Column(name = "birth_date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate birthDate;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private PetType type;
+	@Column(name = "name")
+	private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "pet_id")
-    @OrderBy("visit_date ASC")
-    private Set<Visit> visits = new LinkedHashSet<>();
+	@Column(name = "birth_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate birthDate;
 
-    public void addVisit(Visit visit) {
-        getVisits().add(visit);
-    }
+	@ManyToOne
+	@JoinColumn(name = "type_id")
+	private PetType type;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "pet_id")
+	@OrderBy("visit_date ASC")
+	private Set<Visit> visits = new LinkedHashSet<>();
+
+	public void addVisit(Visit visit) {
+		getVisits().add(visit);
+	}
+
+	public String toString() {
+		return name;
+	}
 }

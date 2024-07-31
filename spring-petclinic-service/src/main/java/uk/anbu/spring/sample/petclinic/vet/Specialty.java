@@ -15,10 +15,16 @@
  */
 package uk.anbu.spring.sample.petclinic.vet;
 
-import uk.anbu.spring.sample.petclinic.model.NamedEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 
 /**
  * Models a {@link Vet Vet's} specialty (for example, dentistry).
@@ -27,6 +33,18 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "specialties")
-public class Specialty extends NamedEntity {
+@Data
+@EqualsAndHashCode(of = "name")
+public class Specialty implements BaseEntity {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Integer id;
+
+	@Column(name = "name")
+	private String name;
+
+	public String toString() {
+		return name;
+	}
 }

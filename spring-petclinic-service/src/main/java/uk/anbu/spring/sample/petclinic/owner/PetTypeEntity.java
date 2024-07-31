@@ -17,7 +17,6 @@ package uk.anbu.spring.sample.petclinic.owner;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -25,6 +24,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
+import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 /**
  * @author Juergen Hoeller Can be Cat, Dog, Hamster...
@@ -33,7 +33,7 @@ import jakarta.persistence.Column;
 @Table(name = "types")
 @Data
 @EqualsAndHashCode(of = "name")
-public class PetType implements BaseEntity {
+public class PetTypeEntity implements BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

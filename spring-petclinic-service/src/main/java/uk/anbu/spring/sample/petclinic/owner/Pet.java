@@ -22,7 +22,6 @@ import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
-import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,6 +36,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 /**
  * Simple business object representing a pet.
@@ -64,7 +64,7 @@ public class Pet implements BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "type_id")
-	private PetType type;
+	private PetTypeEntity type;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "pet_id")

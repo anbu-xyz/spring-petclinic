@@ -23,7 +23,6 @@ import java.util.Set;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
-import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +37,8 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import uk.anbu.spring.sample.petclinic.model.BaseEntity;
+
 /**
  * Simple JavaBean domain object representing a veterinarian.
  *

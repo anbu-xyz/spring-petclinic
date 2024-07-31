@@ -20,7 +20,6 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.core.style.ToStringCreator;
-import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 import org.springframework.util.Assert;
 
 import jakarta.persistence.CascadeType;
@@ -34,6 +33,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import uk.anbu.spring.sample.petclinic.model.BaseEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 

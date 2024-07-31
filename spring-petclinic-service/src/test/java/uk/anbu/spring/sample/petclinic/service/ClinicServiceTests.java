@@ -32,7 +32,7 @@ import org.springframework.data.domain.Pageable;
 import uk.anbu.spring.sample.petclinic.owner.Owner;
 import uk.anbu.spring.sample.petclinic.owner.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.owner.Pet;
-import uk.anbu.spring.sample.petclinic.owner.PetType;
+import uk.anbu.spring.sample.petclinic.owner.PetTypeEntity;
 import uk.anbu.spring.sample.petclinic.owner.Visit;
 import uk.anbu.spring.sample.petclinic.vet.Vet;
 import uk.anbu.spring.sample.petclinic.vet.VetRepository;
@@ -141,11 +141,11 @@ class ClinicServiceTests {
     @Test
 	@Sql("classpath:db/h2/data.sql")
     void shouldFindAllPetTypes() {
-        Collection<PetType> petTypes = this.owners.findPetTypes();
+        Collection<PetTypeEntity> petTypes = this.owners.findPetTypes();
 
-        PetType petType1 = EntityUtils.getById(petTypes, PetType.class, 1);
+        PetTypeEntity petType1 = EntityUtils.getById(petTypes, PetTypeEntity.class, 1);
         assertThat(petType1.getName()).isEqualTo("cat");
-        PetType petType4 = EntityUtils.getById(petTypes, PetType.class, 4);
+        PetTypeEntity petType4 = EntityUtils.getById(petTypes, PetTypeEntity.class, 4);
         assertThat(petType4.getName()).isEqualTo("snake");
     }
 
@@ -158,8 +158,8 @@ class ClinicServiceTests {
 
         Pet pet = new Pet();
         pet.setName("bowser");
-        Collection<PetType> types = this.owners.findPetTypes();
-        pet.setType(EntityUtils.getById(types, PetType.class, 2));
+        Collection<PetTypeEntity> types = this.owners.findPetTypes();
+        pet.setType(EntityUtils.getById(types, PetTypeEntity.class, 2));
         pet.setBirthDate(LocalDate.now());
         owner6.addPet(pet);
         assertThat(owner6.getPets()).hasSize(found + 1);

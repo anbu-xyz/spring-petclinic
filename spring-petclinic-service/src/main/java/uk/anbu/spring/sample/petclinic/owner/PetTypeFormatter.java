@@ -34,7 +34,7 @@ import java.util.Locale;
  * @author Michael Isvy
  */
 @Component
-public class PetTypeFormatter implements Formatter<PetType> {
+public class PetTypeFormatter implements Formatter<PetTypeEntity> {
 
     private final OwnerRepository owners;
 
@@ -44,14 +44,14 @@ public class PetTypeFormatter implements Formatter<PetType> {
     }
 
     @Override
-    public String print(PetType petType, Locale locale) {
+    public String print(PetTypeEntity petType, Locale locale) {
         return petType.getName();
     }
 
     @Override
-    public PetType parse(String text, Locale locale) throws ParseException {
-        Collection<PetType> findPetTypes = this.owners.findPetTypes();
-        for (PetType type : findPetTypes) {
+    public PetTypeEntity parse(String text, Locale locale) throws ParseException {
+        Collection<PetTypeEntity> findPetTypes = this.owners.findPetTypes();
+        for (PetTypeEntity type : findPetTypes) {
             if (type.getName().equals(text)) {
                 return type;
             }

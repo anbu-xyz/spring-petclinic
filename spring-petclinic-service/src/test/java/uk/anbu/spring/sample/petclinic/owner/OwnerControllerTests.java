@@ -76,7 +76,7 @@ class OwnerControllerTests {
         george.setCity("Madison");
         george.setTelephone("6085551023");
         Pet max = new Pet();
-        PetType dog = new PetType();
+        PetTypeEntity dog = new PetTypeEntity();
         dog.setName("dog");
         max.setType(dog);
         max.setName("Max");

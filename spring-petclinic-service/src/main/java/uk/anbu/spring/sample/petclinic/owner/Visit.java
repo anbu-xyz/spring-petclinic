@@ -22,13 +22,13 @@ import jakarta.persistence.GenerationType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import uk.anbu.spring.sample.petclinic.model.BaseEntity;
 
 /**
  * Simple JavaBean domain object representing a visit.

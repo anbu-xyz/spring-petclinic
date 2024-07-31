@@ -38,12 +38,12 @@ import org.springframework.transaction.annotation.Transactional;
 public interface OwnerRepository extends Repository<Owner, Integer> {
 
     /**
-     * Retrieve all {@link PetType}s from the data store.
-     * @return a Collection of {@link PetType}s.
+     * Retrieve all {@link PetTypeEntity}s from the data store.
+     * @return a Collection of {@link PetTypeEntity}s.
      */
-    @Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
+    @Query("SELECT ptype FROM PetTypeEntity ptype ORDER BY ptype.name")
     @Transactional(readOnly = true)
-    List<PetType> findPetTypes();
+    List<PetTypeEntity> findPetTypes();
 
     /**
      * Retrieve {@link Owner}s from the data store by last name, returning all owners

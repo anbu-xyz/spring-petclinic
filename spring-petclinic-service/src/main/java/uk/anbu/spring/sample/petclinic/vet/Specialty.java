@@ -24,7 +24,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
-import uk.anbu.spring.sample.petclinic.model.BaseEntity;
+import uk.anbu.spring.sample.petclinic.db.BaseEntity;
 
 /**
  * Models a {@link Vet Vet's} specialty (for example, dentistry).

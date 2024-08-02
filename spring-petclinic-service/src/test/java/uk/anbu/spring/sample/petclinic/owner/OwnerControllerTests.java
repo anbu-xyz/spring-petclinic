@@ -29,6 +29,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.anbu.spring.sample.petclinic.db.entity.Owner;
+import uk.anbu.spring.sample.petclinic.db.entity.Pet;
+import uk.anbu.spring.sample.petclinic.db.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.db.entity.Visit;
+import uk.anbu.spring.sample.petclinic.db.repository.OwnerRepository;
 
 import java.time.LocalDate;
 

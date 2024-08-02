@@ -28,6 +28,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.anbu.spring.sample.petclinic.db.entity.Owner;
+import uk.anbu.spring.sample.petclinic.db.entity.Pet;
+import uk.anbu.spring.sample.petclinic.db.entity.Visit;
+import uk.anbu.spring.sample.petclinic.db.repository.OwnerRepository;
 
 /**
  * @author Juergen Hoeller
@@ -59,7 +63,7 @@ class VisitController {
      */
     @ModelAttribute("visit")
     public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
-            Map<String, Object> model) {
+								  Map<String, Object> model) {
         Owner owner = this.owners.findById(ownerId);
 
         Pet pet = owner.getPet(petId);

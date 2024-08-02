@@ -32,6 +32,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.anbu.spring.sample.petclinic.db.entity.Owner;
+import uk.anbu.spring.sample.petclinic.db.entity.Pet;
+import uk.anbu.spring.sample.petclinic.db.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.db.repository.OwnerRepository;
 
 /**
  * @author Juergen Hoeller
@@ -67,7 +71,7 @@ class PetController {
 
 	@ModelAttribute("pet")
 	public Pet findPet(@PathVariable("ownerId") int ownerId,
-			@PathVariable(name = "petId", required = false) Integer petId) {
+					   @PathVariable(name = "petId", required = false) Integer petId) {
 
 		if (petId == null) {
 			return new Pet();

@@ -18,7 +18,7 @@ package uk.anbu.spring.sample.petclinic;
 
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
-import uk.anbu.spring.sample.petclinic.model.BaseEntity;
+import uk.anbu.spring.sample.petclinic.db.BaseEntity;
 import uk.anbu.spring.sample.petclinic.vet.Vet;
 
 public class PetClinicRuntimeHints implements RuntimeHintsRegistrar {

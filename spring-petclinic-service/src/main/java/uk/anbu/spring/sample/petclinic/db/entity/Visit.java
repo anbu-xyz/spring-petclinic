@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.anbu.spring.sample.petclinic.owner;
+package uk.anbu.spring.sample.petclinic.db.entity;
 
 import java.time.LocalDate;
 
@@ -28,7 +28,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import uk.anbu.spring.sample.petclinic.model.BaseEntity;
+import uk.anbu.spring.sample.petclinic.db.BaseEntity;
 
 /**
  * Simple JavaBean domain object representing a visit.

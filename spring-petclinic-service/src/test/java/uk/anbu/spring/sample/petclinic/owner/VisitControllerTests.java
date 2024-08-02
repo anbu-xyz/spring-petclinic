@@ -31,6 +31,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.anbu.spring.sample.petclinic.db.entity.Owner;
+import uk.anbu.spring.sample.petclinic.db.entity.Pet;
+import uk.anbu.spring.sample.petclinic.db.repository.OwnerRepository;
 
 /**
  * Test class for {@link VisitController}

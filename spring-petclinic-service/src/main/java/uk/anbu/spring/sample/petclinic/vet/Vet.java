@@ -37,7 +37,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import uk.anbu.spring.sample.petclinic.model.BaseEntity;
+import uk.anbu.spring.sample.petclinic.db.BaseEntity;
 
 /**
  * Simple JavaBean domain object representing a veterinarian.

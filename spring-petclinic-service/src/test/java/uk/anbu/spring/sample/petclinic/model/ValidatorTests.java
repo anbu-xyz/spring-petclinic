@@ -27,7 +27,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
-import uk.anbu.spring.sample.petclinic.owner.Owner;
+import uk.anbu.spring.sample.petclinic.db.entity.Owner;
 
 /**
  * @author Michael Isvy Simple test to make sure that Bean Validation is working (useful

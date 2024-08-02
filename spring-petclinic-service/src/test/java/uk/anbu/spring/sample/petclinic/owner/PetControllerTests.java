@@ -27,6 +27,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.anbu.spring.sample.petclinic.db.entity.Owner;
+import uk.anbu.spring.sample.petclinic.db.entity.Pet;
+import uk.anbu.spring.sample.petclinic.db.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.db.repository.OwnerRepository;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

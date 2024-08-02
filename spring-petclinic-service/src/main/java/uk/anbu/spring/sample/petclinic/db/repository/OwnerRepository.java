@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.anbu.spring.sample.petclinic.owner;
+package uk.anbu.spring.sample.petclinic.db.repository;
 
 import java.util.List;
 
@@ -23,6 +23,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import uk.anbu.spring.sample.petclinic.db.entity.Owner;
+import uk.anbu.spring.sample.petclinic.db.entity.PetTypeEntity;
 
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant

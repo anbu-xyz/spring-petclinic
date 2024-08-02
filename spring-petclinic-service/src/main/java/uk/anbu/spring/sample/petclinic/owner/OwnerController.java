@@ -34,6 +34,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.anbu.spring.sample.petclinic.db.entity.Owner;
+import uk.anbu.spring.sample.petclinic.db.repository.OwnerRepository;
 
 /**
  * @author Juergen Hoeller

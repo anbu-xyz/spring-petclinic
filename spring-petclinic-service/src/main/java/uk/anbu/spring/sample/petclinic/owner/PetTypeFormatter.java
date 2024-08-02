@@ -18,6 +18,8 @@ package uk.anbu.spring.sample.petclinic.owner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
+import uk.anbu.spring.sample.petclinic.db.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.db.repository.OwnerRepository;
 
 import java.text.ParseException;
 import java.util.Collection;

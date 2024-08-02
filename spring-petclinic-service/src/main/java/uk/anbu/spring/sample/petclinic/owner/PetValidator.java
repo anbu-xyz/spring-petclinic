@@ -18,6 +18,7 @@ package uk.anbu.spring.sample.petclinic.owner;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import uk.anbu.spring.sample.petclinic.db.entity.Pet;
 
 /**
  * <code>Validator</code> for <code>Pet</code> forms.

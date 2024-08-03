@@ -17,7 +17,7 @@
 package uk.anbu.spring.sample.petclinic.service;
 
 import org.springframework.orm.ObjectRetrievalFailureException;
-import uk.anbu.spring.sample.petclinic.db.BaseEntity;
+import uk.anbu.spring.sample.petclinic.api.db.BaseEntity;
 
 import java.util.Collection;
 

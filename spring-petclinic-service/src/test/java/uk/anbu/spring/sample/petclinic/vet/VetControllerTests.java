@@ -30,6 +30,10 @@ import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import uk.anbu.spring.sample.petclinic.api.db.entity.Specialty;
+import uk.anbu.spring.sample.petclinic.api.db.entity.Vet;
+import uk.anbu.spring.sample.petclinic.api.db.entity.VetController;
+import uk.anbu.spring.sample.petclinic.api.db.entity.VetRepository;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;

@@ -29,13 +29,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import uk.anbu.spring.sample.petclinic.db.entity.Owner;
-import uk.anbu.spring.sample.petclinic.db.repository.OwnerRepository;
-import uk.anbu.spring.sample.petclinic.db.entity.Pet;
-import uk.anbu.spring.sample.petclinic.db.entity.PetTypeEntity;
-import uk.anbu.spring.sample.petclinic.db.entity.Visit;
-import uk.anbu.spring.sample.petclinic.vet.Vet;
-import uk.anbu.spring.sample.petclinic.vet.VetRepository;
+import uk.anbu.spring.sample.petclinic.api.db.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.api.db.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.api.db.entity.PetEntity;
+import uk.anbu.spring.sample.petclinic.api.db.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.api.db.entity.VisitEntity;
+import uk.anbu.spring.sample.petclinic.api.db.entity.Vet;
+import uk.anbu.spring.sample.petclinic.api.db.entity.VetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,7 +85,7 @@ class ClinicServiceTests {
     @Test
 	@Sql("classpath:db/h2/data.sql")
     void shouldFindOwnersByLastName() {
-        Page<Owner> owners = this.owners.findByLastName("Davis", pageable);
+        Page<OwnerEntity> owners = this.owners.findByLastName("Davis", pageable);
         assertThat(owners).hasSize(2);
 
         owners = this.owners.findByLastName("Daviss", pageable);
@@ -95,7 +95,7 @@ class ClinicServiceTests {
     @Test
 	@Sql("classpath:db/h2/data.sql")
     void shouldFindSingleOwnerWithPet() {
-        Owner owner = this.owners.findById(1);
+        OwnerEntity owner = this.owners.findById(1);
         assertThat(owner.getLastName()).startsWith("Franklin");
         assertThat(owner.getPets()).hasSize(1);
         assertThat(owner.getPets().get(0).getType()).isNotNull();
@@ -106,10 +106,10 @@ class ClinicServiceTests {
     @Transactional
 	@Sql("classpath:db/h2/data.sql")
     void shouldInsertOwner() {
-        Page<Owner> owners = this.owners.findByLastName("Schultz", pageable);
+        Page<OwnerEntity> owners = this.owners.findByLastName("Schultz", pageable);
         int found = (int) owners.getTotalElements();
 
-        Owner owner = new Owner();
+        OwnerEntity owner = new OwnerEntity();
         owner.setFirstName("Sam");
         owner.setLastName("Schultz");
         owner.setAddress("4, Evans Street");
@@ -126,7 +126,7 @@ class ClinicServiceTests {
     @Transactional
 	@Sql("classpath:db/h2/data.sql")
     void shouldUpdateOwner() {
-        Owner owner = this.owners.findById(1);
+        OwnerEntity owner = this.owners.findById(1);
         String oldLastName = owner.getLastName();
         String newLastName = oldLastName + "X";
 
@@ -153,10 +153,10 @@ class ClinicServiceTests {
     @Transactional
 	@Sql("classpath:db/h2/data.sql")
     void shouldInsertPetIntoDatabaseAndGenerateId() {
-        Owner owner6 = this.owners.findById(6);
+        OwnerEntity owner6 = this.owners.findById(6);
         int found = owner6.getPets().size();
 
-        Pet pet = new Pet();
+        PetEntity pet = new PetEntity();
         pet.setName("bowser");
         Collection<PetTypeEntity> types = this.owners.findPetTypes();
         pet.setType(EntityUtils.getById(types, PetTypeEntity.class, 2));
@@ -177,8 +177,8 @@ class ClinicServiceTests {
     @Transactional
 	@Sql("classpath:db/h2/data.sql")
     void shouldUpdatePetName() {
-        Owner owner6 = this.owners.findById(6);
-        Pet pet7 = owner6.getPet(7);
+        OwnerEntity owner6 = this.owners.findById(6);
+        PetEntity pet7 = owner6.getPet(7);
         String oldName = pet7.getName();
 
         String newName = oldName + "X";
@@ -206,10 +206,10 @@ class ClinicServiceTests {
     @Transactional
 	@Sql("classpath:db/h2/data.sql")
     void shouldAddNewVisitForPet() {
-        Owner owner6 = this.owners.findById(6);
-        Pet pet7 = owner6.getPet(7);
+        OwnerEntity owner6 = this.owners.findById(6);
+        PetEntity pet7 = owner6.getPet(7);
         int found = pet7.getVisits().size();
-        Visit visit = new Visit();
+        VisitEntity visit = new VisitEntity();
     	visit.setDescription("test");
 
 		owner6.addVisit(pet7.getId(), visit);
@@ -225,14 +225,14 @@ class ClinicServiceTests {
 	@Test
 	@Sql("classpath:db/h2/data.sql")
 	void shouldFindVisitsByPetId() {
-		Owner owner6 = this.owners.findById(6);
-		Pet pet7 = owner6.getPet(7);
-		Collection<Visit> visits = pet7.getVisits();
+		OwnerEntity owner6 = this.owners.findById(6);
+		PetEntity pet7 = owner6.getPet(7);
+		Collection<VisitEntity> visits = pet7.getVisits();
 
 		assertThat(visits) //
 			.hasSize(2) //
 			.element(0)
-			.extracting(Visit::getDate)
+			.extracting(VisitEntity::getDate)
 			.isNotNull();
 	}
 

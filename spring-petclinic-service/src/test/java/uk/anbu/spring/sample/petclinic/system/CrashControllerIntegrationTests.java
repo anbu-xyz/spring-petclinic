@@ -39,6 +39,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import uk.anbu.spring.sample.petclinic.ui.system.CrashController;
 
 /**
  * Integration Test for {@link CrashController}.

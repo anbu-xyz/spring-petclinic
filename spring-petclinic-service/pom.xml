@@ -2,15 +2,15 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>uk.anbu.spring.sample.petclinic</groupId>
     <artifactId>spring-petclinic</artifactId>
-    <version>3.3.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <modelVersion>4.0.0</modelVersion>
   <artifactId>spring-petclinic-service</artifactId>
-  <version>3.3.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <name>spring-petclinic-service</name>
 
   <properties>
@@ -31,14 +31,22 @@
     <lifecycle-mapping>1.0.0</lifecycle-mapping>
     <spring-format.version>0.0.41</spring-format.version>
 
+    <spock-core.version>2.4-M1-groovy-4.0</spock-core.version>
+    <groovy-all.version>4.0.16</groovy-all.version>
+    <gmavenplus-plugin.version>3.0.2</gmavenplus-plugin.version>
   </properties>
 
   <dependencies>
 
     <dependency>
       <groupId>uk.anbu.spring.sample.petclinic</groupId>
+      <artifactId>utils-lib</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>uk.anbu.spring.sample.petclinic</groupId>
       <artifactId>domain-objects</artifactId>
-      <version>3.3.0-SNAPSHOT</version>
+      <version>1.0.0-SNAPSHOT</version>
     </dependency>
 
     <!-- Spring and Spring Boot dependencies -->
@@ -150,6 +158,18 @@
       <artifactId>jakarta.xml.bind-api</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.spockframework</groupId>
+      <artifactId>spock-core</artifactId>
+      <version>${spock-core.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>${groovy-all.version}</version>
+      <type>pom</type>
+    </dependency>
   </dependencies>
 
   <build>
@@ -342,27 +362,6 @@
             </executions>
           </plugin>
 
-          <plugin>
-            <groupId>com.gitlab.haynes</groupId>
-            <artifactId>libsass-maven-plugin</artifactId>
-            <version>${libsass.version}</version>
-            <executions>
-              <execution>
-                <phase>generate-resources</phase>
-                <?m2e execute onConfiguration,onIncremental?>
-                <goals>
-                  <goal>compile</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <inputPath>${basedir}/src/main/scss/</inputPath>
-              <outputPath>${basedir}/src/main/resources/static/resources/css/</outputPath>
-              <includePath>
-                ${project.build.directory}/webjars/META-INF/resources/webjars/bootstrap/${webjars-bootstrap.version}/scss/
-              </includePath>
-            </configuration>
-          </plugin>
         </plugins>
       </build>
     </profile>
@@ -413,6 +412,42 @@
                     </pluginExecution>
                   </pluginExecutions>
                 </lifecycleMappingMetadata>
+              </configuration>
+            </plugin>
+
+            <plugin>
+              <groupId>org.codehaus.gmavenplus</groupId>
+              <artifactId>gmavenplus-plugin</artifactId>
+              <version>${gmavenplus-plugin.version}</version>
+              <executions>
+                <execution>
+                  <goals>
+                    <goal>compile</goal>
+                    <goal>compileTests</goal>
+                  </goals>
+                </execution>
+              </executions>
+              <configuration>
+                <testSources>
+                  <testSource>
+                    <directory>${project.basedir}/src/test/groovy</directory>
+                    <includes>
+                      <include>**/*.groovy</include>
+                    </includes>
+                  </testSource>
+                </testSources>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <version>3.2.2</version>
+              <configuration>
+                <testSourceDirectory>src/test/groovy</testSourceDirectory>
+                <includes>
+                  <include>**/*Specification.groovy</include>
+                  <include>**/*Test.groovy</include>
+                </includes>
               </configuration>
             </plugin>
           </plugins>

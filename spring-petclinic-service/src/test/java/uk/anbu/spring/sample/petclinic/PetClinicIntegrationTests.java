@@ -28,9 +28,10 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import uk.anbu.spring.sample.petclinic.vet.VetRepository;
+import uk.anbu.spring.sample.petclinic.api.db.entity.VetRepository;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.client.RestTemplate;
+import uk.anbu.spring.sample.petclinic.ui.PetClinicApplication;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class PetClinicIntegrationTests {

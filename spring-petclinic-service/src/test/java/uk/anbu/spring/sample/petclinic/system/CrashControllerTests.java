@@ -17,6 +17,7 @@
 package uk.anbu.spring.sample.petclinic.system;
 
 import org.junit.jupiter.api.Test;
+import uk.anbu.spring.sample.petclinic.ui.system.CrashController;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 

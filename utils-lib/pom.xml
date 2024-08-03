@@ -9,9 +9,9 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>domain-objects</artifactId>
+  <artifactId>utils-lib</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <name>domain-objects</name>
+  <name>utils-lib</name>
 
   <properties>
 

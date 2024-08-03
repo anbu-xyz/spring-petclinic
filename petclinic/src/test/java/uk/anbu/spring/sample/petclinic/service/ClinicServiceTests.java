@@ -37,7 +37,7 @@ import uk.anbu.spring.sample.petclinic.api.db.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.api.db.entity.PetTypeEntity;
 import uk.anbu.spring.sample.petclinic.api.db.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.api.db.entity.VetEntity;
-import uk.anbu.spring.sample.petclinic.api.db.entity.VetRepository;
+import uk.anbu.spring.sample.petclinic.api.db.repository.VetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;

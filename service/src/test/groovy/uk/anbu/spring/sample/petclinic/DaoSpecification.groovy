@@ -7,12 +7,14 @@ import uk.anbu.spring.sample.petclinic.api.PetClinicServiceContext
 import uk.anbu.spring.sample.petclinic.api.db.dao.OwnerDao
 import uk.anbu.spring.sample.petclinic.api.db.dao.PetDao
 import uk.anbu.spring.sample.petclinic.api.db.dao.VetDao
+import uk.anbu.spring.sample.petclinic.api.db.dao.VisitDao
 import uk.anbu.spring.sample.petclinic.api.db.entity.OwnerEntity
 import uk.anbu.spring.sample.petclinic.lib.ResettableGlobalUtcClock
 import uk.anbu.spring.sample.petclinic.lib.db.DataSourceWrapper
 import uk.anbu.spring.sample.petclinic.model.Owner
 import uk.anbu.spring.sample.petclinic.model.Pet
 import uk.anbu.spring.sample.petclinic.model.Vet
+import uk.anbu.spring.sample.petclinic.model.Visit
 import uk.anbu.spring.sample.petclinic.testutil.DataSourceUtil
 
 import static uk.anbu.spring.sample.petclinic.model.Vet.Type.*
@@ -84,11 +86,26 @@ class DaoSpecification extends Specification {
                 .firstName("vet first")
                 .lastName("vet last")
                 .vetRegistrationId("RN-101")
-                .specialty([RADIOLOGY, SURGERY]*.value())
+                .specialty([RADIOLOGY, SURGERY].collect{Vet.SpecialtyType.of(it)})
                 .build()
 
         when:
         def saved = dao.add(vet)
+        def read = dao.findById(saved.eid)
+
+        then:
+        read.isPresent()
+        CompareUtil.compareObjects(read.get(), saved, ["eid", "updateTimestampUtc"])
+    }
+
+    def "Able to save and retrieve visits"() {
+        given:
+        def dao = service.getBean(VisitDao)
+        def visit = Visit.builder()
+                .build()
+
+        when:
+        def saved = dao.add(visit)
         def read = dao.findById(saved.eid)
 
         then:

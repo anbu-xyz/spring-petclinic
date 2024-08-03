@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.api.db.entity;
+package uk.anbu.spring.sample.petclinic.api.db.repository;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
+import uk.anbu.spring.sample.petclinic.api.db.entity.VetEntity;
 
 import java.util.Collection;
 

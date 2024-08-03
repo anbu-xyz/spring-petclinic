@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import uk.anbu.spring.sample.petclinic.api.db.entity.VetEntity;
-import uk.anbu.spring.sample.petclinic.api.db.entity.VetRepository;
+import uk.anbu.spring.sample.petclinic.api.db.repository.VetRepository;
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.model.Vet;
 

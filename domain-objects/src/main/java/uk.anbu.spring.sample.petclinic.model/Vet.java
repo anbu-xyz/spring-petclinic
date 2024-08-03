@@ -3,7 +3,7 @@ package uk.anbu.spring.sample.petclinic.model;
 import java.util.List;
 import java.util.Optional;
 
-public record Vet(String registrationId, String firstName, String lastName, List<SpecialtyType> specialty) {
+public record Vet(String vetRegistrationId, String firstName, String lastName, List<SpecialtyType> specialty) {
 	public enum Type {
 		RADIOLOGY,
 		SURGERY,

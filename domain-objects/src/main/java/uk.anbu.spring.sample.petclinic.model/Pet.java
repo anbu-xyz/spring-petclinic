@@ -3,7 +3,7 @@ package uk.anbu.spring.sample.petclinic.model;
 import java.time.LocalDate;
 import java.util.Optional;
 
-public record Pet(PetType type, String name, LocalDate birthDate) {
+public record Pet(String petId, PetType type, String name, LocalDate birthDate) {
 	public enum Type {
 		CAT,
 		DOG,

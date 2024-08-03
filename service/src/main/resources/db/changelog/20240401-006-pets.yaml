@@ -8,7 +8,7 @@ databaseChangeLog:
             remarks: pets table
             columns:
             - column:
-                name: id
+                name: eid
                 type: integer
                 constraints:
                   primaryKey: true
@@ -48,6 +48,6 @@ databaseChangeLog:
             baseColumnNames: owner_id
             baseTableName: pets
             constraintName: fk_pets_owners
-            referencedColumnNames: id
+            referencedColumnNames: eid
             referencedTableName: owners
             validate: true

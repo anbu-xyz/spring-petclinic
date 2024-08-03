@@ -1,14 +1,21 @@
 package uk.anbu.spring.sample.petclinic.model;
 
+import lombok.Builder;
+
 import java.util.List;
 import java.util.Optional;
 
+@Builder
 public record Vet(String vetRegistrationId, String firstName, String lastName, List<SpecialtyType> specialty) {
 	public enum Type {
 		RADIOLOGY,
 		SURGERY,
 		DENTISTRY,
-		OTHER
+		OTHER;
+
+		public SpecialtyType value() {
+			return SpecialtyType.of(this.name());
+		}
 	}
 
 	public record SpecialtyType(Type type, String code) {

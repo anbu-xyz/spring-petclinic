@@ -46,13 +46,13 @@ public class VetController {
         // Here we are returning an object of type 'Vets' rather than a collection of Vet
         // objects so it is simpler for Object-Xml mapping
         Vets vets = new Vets();
-        Page<Vet> paginated = findPaginated(page);
+        Page<VetEntity> paginated = findPaginated(page);
         vets.getVetList().addAll(paginated.toList());
         return addPaginationModel(page, paginated, model);
     }
 
-    private String addPaginationModel(int page, Page<Vet> paginated, Model model) {
-        List<Vet> listVets = paginated.getContent();
+    private String addPaginationModel(int page, Page<VetEntity> paginated, Model model) {
+        List<VetEntity> listVets = paginated.getContent();
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", paginated.getTotalPages());
         model.addAttribute("totalItems", paginated.getTotalElements());
@@ -60,7 +60,7 @@ public class VetController {
         return "vets/vetList";
     }
 
-    private Page<Vet> findPaginated(int page) {
+    private Page<VetEntity> findPaginated(int page) {
         int pageSize = 5;
         Pageable pageable = PageRequest.of(page - 1, pageSize);
         return vetRepository.findAll(pageable);

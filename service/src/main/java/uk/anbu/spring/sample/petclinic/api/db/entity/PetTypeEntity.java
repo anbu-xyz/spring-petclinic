@@ -37,7 +37,7 @@ public class PetTypeEntity implements BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Integer id;
+	private Integer eid;
 
 	@Column(name = "name")
 	private String name;

@@ -79,7 +79,7 @@ class OwnerControllerTests {
 
     private OwnerEntity george() {
         OwnerEntity george = new OwnerEntity();
-        george.setId(TEST_OWNER_ID);
+        george.setEid(TEST_OWNER_ID);
         george.setFirstName("George");
         george.setLastName("Franklin");
         george.setAddress("110 W. Liberty St.");
@@ -91,7 +91,7 @@ class OwnerControllerTests {
         max.setName("Max");
         max.setBirthDate(LocalDate.now());
         george.addPet(max);
-        max.setId(1);
+        max.setEid(1);
         return george;
     }
 

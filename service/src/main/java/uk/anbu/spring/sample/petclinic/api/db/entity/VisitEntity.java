@@ -44,7 +44,7 @@ public class VisitEntity implements BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Integer id;
+	private Integer eid;
 
     @Column(name = "visit_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -56,8 +56,8 @@ public class VisitEntity implements BaseEntity {
     /**
      * Creates a new instance of Visit for the current date
      */
-    public VisitEntity(Integer id) {
-		this.id = id;
+    public VisitEntity(Integer eid) {
+		this.eid = eid;
 		this.date = LocalDate.now();
     }
 

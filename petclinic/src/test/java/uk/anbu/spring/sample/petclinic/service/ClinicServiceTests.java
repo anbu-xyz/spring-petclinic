@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ import uk.anbu.spring.sample.petclinic.api.db.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.api.db.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.api.db.entity.PetTypeEntity;
 import uk.anbu.spring.sample.petclinic.api.db.entity.VisitEntity;
-import uk.anbu.spring.sample.petclinic.api.db.entity.Vet;
+import uk.anbu.spring.sample.petclinic.api.db.entity.VetEntity;
 import uk.anbu.spring.sample.petclinic.api.db.entity.VetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
@@ -119,7 +120,7 @@ class ClinicServiceTests {
         owner.setCity("Wollongong");
         owner.setTelephone("4444444444");
         this.owners.save(owner);
-        assertThat(owner.getId()).isNotZero();
+        assertThat(owner.getEid()).isNotZero();
 
         owners = this.owners.findByLastName("Schultz", pageable);
         assertThat(owners.getTotalElements()).isEqualTo(found + 1);
@@ -173,7 +174,7 @@ class ClinicServiceTests {
         assertThat(owner6.getPets()).hasSize(found + 1);
         // checks that id has been generated
         pet = owner6.getPet(3);
-        assertThat(pet.getId()).isNotNull();
+        assertThat(pet.getEid()).isNotNull();
     }
 
     @Test
@@ -196,13 +197,12 @@ class ClinicServiceTests {
     @Test
 	@Sql("classpath:db/h2/data.sql")
 	void shouldFindVets() {
-        Collection<Vet> vets = this.vets.findAll();
+        Collection<VetEntity> vets = this.vets.findAll();
 
-        Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+        VetEntity vet = EntityUtils.getById(vets, VetEntity.class, 3);
         assertThat(vet.getLastName()).isEqualTo("Douglas");
         assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
-        assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
-        assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
+        assertThat(vet.getSpecialties()).containsAll(List.of("dentistry"));
     }
 
     @Test
@@ -215,14 +215,14 @@ class ClinicServiceTests {
         VisitEntity visit = new VisitEntity();
     	visit.setDescription("test");
 
-		owner6.addVisit(pet7.getId(), visit);
+		owner6.addVisit(pet7.getEid(), visit);
 		this.owners.save(owner6);
 
 		owner6 = this.owners.findById(6).get();
 
 		assertThat(pet7.getVisits()) //
 			.hasSize(found + 1) //
-			.allMatch(value -> value.getId() != null);
+			.allMatch(value -> value.getEid() != null);
 	}
 
 	@Test

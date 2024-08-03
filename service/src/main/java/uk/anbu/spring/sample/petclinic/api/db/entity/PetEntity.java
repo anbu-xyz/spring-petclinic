@@ -39,7 +39,7 @@ public class PetEntity implements BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Integer id;
+	private Integer eid;
 
 	@Column(name = "owner_id")
 	private Integer ownerId;

@@ -35,7 +35,7 @@ public class OwnerDao {
 
 		 var saved = ownerRepository.save(ownerToSave);
 
-		 log.info("New owner id: {}", saved.getId());
+		 log.info("New owner id: {}", saved.getEid());
 
 		 return saved;
 	}

@@ -17,7 +17,7 @@ package uk.anbu.spring.sample.petclinic.vet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.util.SerializationUtils;
-import uk.anbu.spring.sample.petclinic.api.db.entity.Vet;
+import uk.anbu.spring.sample.petclinic.api.db.entity.VetEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,15 +28,15 @@ class VetTests {
 
     @Test
     void testSerialization() {
-        Vet vet = new Vet();
+        VetEntity vet = new VetEntity();
         vet.setFirstName("Zaphod");
         vet.setLastName("Beeblebrox");
-        vet.setId(123);
+        vet.setEid(123);
         @SuppressWarnings("deprecation")
-        Vet other = (Vet) SerializationUtils.deserialize(SerializationUtils.serialize(vet));
+        VetEntity other = (VetEntity) SerializationUtils.deserialize(SerializationUtils.serialize(vet));
         assertThat(other.getFirstName()).isEqualTo(vet.getFirstName());
         assertThat(other.getLastName()).isEqualTo(vet.getLastName());
-        assertThat(other.getId()).isEqualTo(vet.getId());
+        assertThat(other.getEid()).isEqualTo(vet.getEid());
     }
 
 }

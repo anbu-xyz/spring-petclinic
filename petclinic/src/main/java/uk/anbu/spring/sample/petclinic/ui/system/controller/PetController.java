@@ -142,7 +142,7 @@ public class PetController {
 		// checking if the pet name already exist for the owner
 		if (StringUtils.hasText(petName)) {
 			PetEntity existingPet = owner.getPet(petName.toLowerCase(), false);
-			if (existingPet != null && existingPet.getId() != pet.getId()) {
+			if (existingPet != null && existingPet.getEid() != pet.getEid()) {
 				result.rejectValue("name", "duplicate", "already exists");
 			}
 		}

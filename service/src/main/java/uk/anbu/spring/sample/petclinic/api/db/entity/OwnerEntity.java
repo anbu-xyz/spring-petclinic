@@ -38,7 +38,7 @@ public class OwnerEntity implements BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Integer id;
+	private Integer eid;
 
 	@Column(name = "first_name")
 	@NotBlank

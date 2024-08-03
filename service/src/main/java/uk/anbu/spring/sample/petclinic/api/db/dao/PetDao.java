@@ -31,7 +31,7 @@ public class PetDao {
 
 		var saved = petRepository.save(petToSave);
 
-		log.info("New pet id: {}", saved.getId());
+		log.info("New pet id: {}", saved.getEid());
 
 		return saved;
 	}

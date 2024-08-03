@@ -83,7 +83,7 @@ public class OwnerController {
 
 		this.owners.save(owner);
 		redirectAttributes.addFlashAttribute("message", "New Owner Created");
-		return "redirect:/owners/" + owner.getId();
+		return "redirect:/owners/" + owner.getEid();
 	}
 
 	@GetMapping("/owners/find")
@@ -110,7 +110,7 @@ public class OwnerController {
 		if (ownersResults.getTotalElements() == 1) {
 			// 1 owner found
 			owner = ownersResults.iterator().next();
-			return "redirect:/owners/" + owner.getId();
+			return "redirect:/owners/" + owner.getEid();
 		}
 
 		// multiple owners found
@@ -147,7 +147,7 @@ public class OwnerController {
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 		}
 
-		owner.setId(ownerId);
+		owner.setEid(ownerId);
 		this.owners.save(owner);
 		redirectAttributes.addFlashAttribute("message", "Owner Values Updated");
 		return "redirect:/owners/{ownerId}";

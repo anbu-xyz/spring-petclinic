@@ -26,10 +26,10 @@ import java.io.Serializable;
  */
 public interface BaseEntity extends Serializable {
 
-	Integer getId();
+	Integer getEid();
 
     default boolean isNew() {
-        return this.getId() == null;
+        return this.getEid() == null;
     }
 
 }

@@ -63,7 +63,7 @@ class VisitControllerTests {
         OwnerEntity owner = new OwnerEntity();
         PetEntity pet = new PetEntity();
         owner.addPet(pet);
-        pet.setId(TEST_PET_ID);
+        pet.setEid(TEST_PET_ID);
         given(this.owners.findById(TEST_OWNER_ID).get()).willReturn(owner);
     }
 

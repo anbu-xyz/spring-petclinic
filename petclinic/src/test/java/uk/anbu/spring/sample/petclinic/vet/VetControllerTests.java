@@ -31,8 +31,7 @@ import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import uk.anbu.spring.sample.petclinic.api.db.entity.Specialty;
-import uk.anbu.spring.sample.petclinic.api.db.entity.Vet;
+import uk.anbu.spring.sample.petclinic.api.db.entity.VetEntity;
 import uk.anbu.spring.sample.petclinic.api.db.entity.VetController;
 import uk.anbu.spring.sample.petclinic.api.db.entity.VetRepository;
 
@@ -57,23 +56,20 @@ class VetControllerTests {
     @MockBean
     private VetRepository vets;
 
-    private Vet james() {
-        Vet james = new Vet();
+    private VetEntity james() {
+        VetEntity james = new VetEntity();
         james.setFirstName("James");
         james.setLastName("Carter");
-        james.setId(1);
+        james.setEid(1);
         return james;
     }
 
-    private Vet helen() {
-        Vet helen = new Vet();
+    private VetEntity helen() {
+        VetEntity helen = new VetEntity();
         helen.setFirstName("Helen");
         helen.setLastName("Leary");
-        helen.setId(2);
-        Specialty radiology = new Specialty();
-        radiology.setId(1);
-        radiology.setName("radiology");
-        helen.addSpecialty(radiology);
+        helen.setEid(2);
+        helen.addSpecialty("radiology");
         return helen;
     }
 
@@ -81,7 +77,7 @@ class VetControllerTests {
     void setup() {
         given(this.vets.findAll()).willReturn(Lists.newArrayList(james(), helen()));
         given(this.vets.findAll(any(Pageable.class)))
-            .willReturn(new PageImpl<Vet>(Lists.newArrayList(james(), helen())));
+            .willReturn(new PageImpl<VetEntity>(Lists.newArrayList(james(), helen())));
 
     }
 

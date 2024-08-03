@@ -18,15 +18,18 @@ databaseChangeLog:
                 type: varchar(30)
             - column:
                 name: birth_date
-                type: varchar(30)
+                type: date
             - column:
-                name: type_id
-                type: integer
+                name: type
+                type: varchar(30)
                 constraints:
                   nullable: false
             - column:
                 name: owner_id
                 type: integer
+            - column:
+                name: update_timestamp_utc
+                type: timestamp
         - createSequence:
            cacheSize: 100
            cycle: false
@@ -47,11 +50,4 @@ databaseChangeLog:
             constraintName: fk_pets_owners
             referencedColumnNames: id
             referencedTableName: owners
-            validate: true
-        - addForeignKeyConstraint:
-            baseColumnNames: type_id
-            baseTableName: pets
-            constraintName: fk_pets_types
-            referencedColumnNames: id
-            referencedTableName: types
             validate: true

@@ -40,39 +40,19 @@ import uk.anbu.spring.sample.petclinic.api.db.entity.PetTypeEntity;
  */
 public interface OwnerRepository extends CrudRepository<OwnerEntity, Integer> {
 
-    /**
-     * Retrieve all {@link PetTypeEntity}s from the data store.
-     * @return a Collection of {@link PetTypeEntity}s.
-     */
     @Query("SELECT ptype FROM PetTypeEntity ptype ORDER BY ptype.name")
     @Transactional(readOnly = true)
     List<PetTypeEntity> findPetTypes();
-
-    /**
-     * Retrieve {@link OwnerEntity}s from the data store by last name, returning all owners
-     * whose last name <i>starts</i> with the given name.
-     * @param lastName Value to search for
-     * @return a Collection of matching {@link OwnerEntity}s (or an empty Collection if none
-     * found)
-     */
 
     @Query("SELECT DISTINCT owner FROM OwnerEntity owner left join  owner.pets WHERE owner.lastName LIKE :lastName% ")
     @Transactional(readOnly = true)
     Page<OwnerEntity> findByLastName(@Param("lastName") String lastName, Pageable pageable);
 
-    /**
-     * Retrieve an {@link OwnerEntity} from the data store by id.
-     * @param id the id to search for
-     * @return the {@link OwnerEntity} if found
-     */
     @Query("SELECT owner FROM OwnerEntity owner left join fetch owner.pets WHERE owner.id =:id")
     @Transactional(readOnly = true)
 	@Override
 	Optional<OwnerEntity> findById(@Param("id") Integer id);
 
-    /**
-     * Returns all the owners from data store
-     **/
     @Query("SELECT owner FROM OwnerEntity owner")
     @Transactional(readOnly = true)
     Page<OwnerEntity> findAll(Pageable pageable);

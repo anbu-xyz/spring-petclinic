@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic;
+package uk.anbu.spring.sample.petclinic.testutil;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 

@@ -44,4 +44,5 @@ public class OwnerDao {
 	public Optional<OwnerEntity> findOwnerById(Integer id) {
 		return ownerRepository.findById(id);
 	}
+
 }

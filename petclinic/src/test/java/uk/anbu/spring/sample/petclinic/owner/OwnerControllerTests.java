@@ -17,6 +17,7 @@
 package uk.anbu.spring.sample.petclinic.owner;
 
 import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,7 @@ import uk.anbu.spring.sample.petclinic.api.db.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.api.db.entity.PetTypeEntity;
 import uk.anbu.spring.sample.petclinic.api.db.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.api.db.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.model.Pet;
 import uk.anbu.spring.sample.petclinic.ui.system.controller.OwnerController;
 
 import java.time.LocalDate;
@@ -85,8 +87,7 @@ class OwnerControllerTests {
         george.setTelephone("6085551023");
         PetEntity max = new PetEntity();
         PetTypeEntity dog = new PetTypeEntity();
-        dog.setName("dog");
-        max.setType(dog);
+        max.setType(Pet.PetType.of("dog"));
         max.setName("Max");
         max.setBirthDate(LocalDate.now());
         george.addPet(max);
@@ -106,7 +107,9 @@ class OwnerControllerTests {
         given(this.owners.findById(TEST_OWNER_ID).get()).willReturn(george);
         VisitEntity visit = new VisitEntity();
         visit.setDate(LocalDate.now());
-        george.getPet("Max").getVisits().add(visit);
+
+        // george.getPet("Max").getVisits().add(visit); // TODO: fix this
+        Assertions.assertTrue(false);
 
     }
 

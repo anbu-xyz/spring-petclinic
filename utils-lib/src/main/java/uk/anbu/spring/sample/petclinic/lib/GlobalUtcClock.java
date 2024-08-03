@@ -10,4 +10,9 @@ public interface GlobalUtcClock {
 	LocalDate currentDate();
 
 	LocalDateTime currentTimestamp();
+
+	default java.sql.Timestamp sqlTimestamp() {
+		return java.sql.Timestamp.valueOf(currentTimestamp());
+	}
+
 }

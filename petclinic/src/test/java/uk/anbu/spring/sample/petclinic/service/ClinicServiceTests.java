@@ -40,6 +40,7 @@ import uk.anbu.spring.sample.petclinic.api.db.entity.VetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
+import uk.anbu.spring.sample.petclinic.model.Pet;
 
 /**
  * Integration test of the Service and the Repository layer.
@@ -101,7 +102,7 @@ class ClinicServiceTests {
         assertThat(owner.getLastName()).startsWith("Franklin");
         assertThat(owner.getPets()).hasSize(1);
         assertThat(owner.getPets().get(0).getType()).isNotNull();
-        assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
+        assertThat(owner.getPets().get(0).getType()).isEqualTo("cat");
     }
 
     @Test
@@ -161,7 +162,7 @@ class ClinicServiceTests {
         PetEntity pet = new PetEntity();
         pet.setName("bowser");
         Collection<PetTypeEntity> types = this.owners.findPetTypes();
-        pet.setType(EntityUtils.getById(types, PetTypeEntity.class, 2));
+        pet.setType(Pet.PetType.of("dog"));
         pet.setBirthDate(LocalDate.now());
         owner6.addPet(pet);
         assertThat(owner6.getPets()).hasSize(found + 1);
@@ -171,7 +172,7 @@ class ClinicServiceTests {
         owner6 = this.owners.findById(6).get();
         assertThat(owner6.getPets()).hasSize(found + 1);
         // checks that id has been generated
-        pet = owner6.getPet("bowser");
+        pet = owner6.getPet(3);
         assertThat(pet.getId()).isNotNull();
     }
 

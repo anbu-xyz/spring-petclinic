@@ -1,9 +1,17 @@
 package uk.anbu.spring.sample.petclinic.model;
 
+import lombok.Builder;
+
 import java.time.LocalDate;
 import java.util.Optional;
 
-public record Pet(String petId, PetType type, String name, LocalDate birthDate) {
+@Builder
+public record Pet(Integer petId, Integer ownerId, PetType type, String name, LocalDate birthDate) {
+	public Pet {
+		if (ownerId == null) {
+			throw new IllegalArgumentException("OwnerId cannot be null");
+		}
+	}
 	public enum Type {
 		CAT,
 		DOG,

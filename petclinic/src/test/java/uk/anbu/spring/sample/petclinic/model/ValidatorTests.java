@@ -18,6 +18,8 @@ package uk.anbu.spring.sample.petclinic.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Locale;
 import java.util.Set;
 
@@ -28,6 +30,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import uk.anbu.spring.sample.petclinic.api.db.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.lib.ResettableGlobalUtcClock;
 
 /**
  * @author Michael Isvy Simple test to make sure that Bean Validation is working (useful
@@ -43,6 +46,9 @@ class ValidatorTests {
 
     @Test
     void shouldNotValidateWhenFirstNameEmpty() {
+		var clock = new ResettableGlobalUtcClock(
+			LocalDate.of(2020, 3, 4),
+			LocalTime.of(10, 10));
 
         LocaleContextHolder.setLocale(Locale.ENGLISH);
         var owner = new OwnerEntity();
@@ -51,6 +57,7 @@ class ValidatorTests {
 		owner.setCity("Angel City");
 		owner.setAddress("20, Honey Blvd");
 		owner.setTelephone("1234567890");
+		owner.setUpdateTimestampUtc(clock.sqlTimestamp());
 
         Validator validator = createValidator();
         Set<ConstraintViolation<OwnerEntity>> constraintViolations = validator.validate(owner);

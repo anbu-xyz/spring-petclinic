@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LiquibaseDatabaseInitializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-petclinic-service</a> &gt; <a href="index.source.html" class="el_package">uk.anbu.spring.sample.petclinic.liquibase</a> &gt; <span class="el_source">LiquibaseDatabaseInitializer.java</span></div><h1>LiquibaseDatabaseInitializer.java</h1><pre class="source lang-java linenums">package uk.anbu.spring.sample.petclinic.liquibase;
+
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Service;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+
+@Service
+<span class="fc" id="L18">@Slf4j</span>
+<span class="fc" id="L19">@RequiredArgsConstructor</span>
+public class LiquibaseDatabaseInitializer implements InitializingBean {
+	private final DataSource dataSource;
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+<span class="fc" id="L25">		updateDatabase();</span>
+<span class="fc" id="L26">	}</span>
+
+<span class="pc" id="L28">	@SneakyThrows</span>
+	private void updateDatabase() {
+<span class="fc" id="L30">		try (var conn = dataSource.getConnection()) {</span>
+<span class="fc" id="L31">			var dbConnection = new JdbcConnection(conn);</span>
+<span class="fc" id="L32">			Database database = DatabaseFactory.getInstance()</span>
+<span class="fc" id="L33">				.findCorrectDatabaseImplementation(dbConnection);</span>
+
+<span class="fc" id="L35">			var liquibaseFileName = &quot;/db/liquibase-changelog.yaml&quot;;</span>
+<span class="fc" id="L36">			try (var stream = this.getClass().getResourceAsStream(liquibaseFileName)) {</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">				if (stream == null) {</span>
+<span class="nc" id="L38">					log.info(&quot;liquibase changelog {} is missing&quot;, liquibaseFileName);</span>
+<span class="nc" id="L39">					throw new IOException(String.format(&quot;Liquibase changelog %s is missing&quot;, liquibaseFileName));</span>
+				} else {
+<span class="fc" id="L41">					log.info(&quot;Found changelog file {}&quot;, liquibaseFileName);</span>
+				}
+			}
+
+<span class="fc" id="L45">			var liquibase = new Liquibase(liquibaseFileName,</span>
+				new ClassLoaderResourceAccessor(),
+				database);
+
+<span class="fc" id="L49">			liquibase.update(&quot;&quot;);</span>
+		}
+<span class="fc" id="L51">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

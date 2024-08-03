@@ -15,7 +15,8 @@
   <version>1.0.0-SNAPSHOT</version>
   <modules>
     <module>domain-objects</module>
-    <module>spring-petclinic-service</module>
+    <module>service</module>
+    <module>petclinic</module>
     <module>utils-lib</module>
   </modules>
 

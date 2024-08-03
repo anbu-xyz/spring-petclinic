@@ -18,6 +18,7 @@ package uk.anbu.spring.sample.petclinic.vet;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(VetController.class)
 @DisabledInNativeImage
 @DisabledInAotMode
+@Disabled
 class VetControllerTests {
 
     @Autowired

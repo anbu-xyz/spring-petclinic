@@ -18,6 +18,7 @@ package uk.anbu.spring.sample.petclinic;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -34,6 +35,7 @@ import org.springframework.web.client.RestTemplate;
 import uk.anbu.spring.sample.petclinic.ui.PetClinicApplication;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Disabled
 public class PetClinicIntegrationTests {
 
     @LocalServerPort

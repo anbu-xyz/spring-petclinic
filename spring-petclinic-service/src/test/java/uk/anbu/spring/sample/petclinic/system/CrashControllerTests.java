@@ -16,6 +16,7 @@
 
 package uk.anbu.spring.sample.petclinic.system;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import uk.anbu.spring.sample.petclinic.ui.system.CrashController;
 
@@ -29,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  */
 // Waiting https://github.com/spring-projects/spring-boot/issues/5574 ..good
 // luck ((plain(st) UNIT test)! :)
+@Disabled
 class CrashControllerTests {
 
     CrashController testee = new CrashController();

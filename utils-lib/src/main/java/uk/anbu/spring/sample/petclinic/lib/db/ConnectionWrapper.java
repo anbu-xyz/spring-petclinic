@@ -22,25 +22,25 @@ public class ConnectionWrapper implements Connection {
 
 	@Override
 	public void setAutoCommit(boolean autoCommit) throws SQLException {
-		log.info("autocommit = {}", autoCommit);
+		log.trace("autocommit = {}", autoCommit);
 		conn.setAutoCommit(autoCommit);
 	}
 
 	@Override
 	public void commit() throws SQLException {
-		log.info("commit issued");
+		log.trace("commit issued");
 		conn.commit();
 	}
 
 	@Override
 	public void rollback() throws SQLException {
-		log.info("rollback issued");
+		log.trace("rollback issued");
 		conn.commit();
 	}
 
 	@Override
 	public void close() throws SQLException {
-		log.info("Closing connection for schema {}", conn.getSchema());
+		log.trace("Closing connection for schema {}", conn.getSchema());
 		conn.close();
 	}
 

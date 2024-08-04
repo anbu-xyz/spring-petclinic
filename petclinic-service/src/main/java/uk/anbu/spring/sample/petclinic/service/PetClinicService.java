@@ -1,7 +1,7 @@
 package uk.anbu.spring.sample.petclinic.service;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import uk.anbu.spring.sample.petclinic.dto.NewOwnerDto;
+import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.lib.PropertySourceBuilder;
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
@@ -39,17 +39,32 @@ public class PetClinicService {
 		return petClinicContext.getBean(GlobalUtcClock.class);
 	}
 
-	public Integer registerNewOwner(NewOwnerDto dto) {
-		var x = OwnerEntity.builder()
+	public Integer registerNewOwner(OwnerDto dto) {
+		var entity = OwnerEntity.builder()
+			.firstName(dto.getFirstName())
+			.lastName(dto.getLastName())
+			.city(dto.getCity())
+			.address(dto.getAddress())
+			.eid(null)
+			.telephone(dto.getTelephone())
+			.updateTimestampUtc(clock().sqlTimestamp())
+			.pets(List.of())
+			.build();
+		var savedEntity = petClinicContext.getBean(OwnerRepository.class).save(entity);
+		return savedEntity.getEid();
+	}
+
+	public void updateOwner(OwnerDto dto) {
+		var entity = OwnerEntity.builder()
 			.firstName(dto.getFirstName())
 			.lastName(dto.getLastName())
 			.city(dto.getCity())
 			.address(dto.getAddress())
 			.telephone(dto.getTelephone())
 			.updateTimestampUtc(clock().sqlTimestamp())
+			.eid(dto.getEid())
 			.pets(List.of())
 			.build();
-		var savedEntity = petClinicContext.getBean(OwnerRepository.class).save(x);
-		return savedEntity.getEid();
+		petClinicContext.getBean(OwnerRepository.class).save(entity);
 	}
 }

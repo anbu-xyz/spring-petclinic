@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import uk.anbu.spring.sample.petclinic.dto.NewOwnerDto;
+import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
 import uk.anbu.spring.sample.petclinic.service.PetClinicService;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
@@ -56,7 +56,7 @@ public class OwnerController {
 	}
 
 	@PostMapping("/owners/new")
-	public String processCreationForm(@Valid NewOwnerDto owner, BindingResult result, RedirectAttributes redirectAttributes) {
+	public String processCreationForm(@Valid OwnerDto owner, BindingResult result, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("error", "There was an error in creating the owner.");
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
@@ -121,7 +121,7 @@ public class OwnerController {
 	}
 
 	@PostMapping("/owners/{ownerId}/edit")
-	public String processUpdateOwnerForm(@Valid OwnerEntity owner, BindingResult result, @PathVariable("ownerId") int ownerId,
+	public String processUpdateOwnerForm(@Valid OwnerDto owner, BindingResult result, @PathVariable("ownerId") int ownerId,
 										 RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("error", "There was an error in updating the owner.");
@@ -129,7 +129,7 @@ public class OwnerController {
 		}
 
 		owner.setEid(ownerId);
-		this.owners.save(owner);
+		petClinicService.updateOwner(owner);
 		redirectAttributes.addFlashAttribute("message", "Owner Values Updated");
 		return "redirect:/owners/{ownerId}";
 	}

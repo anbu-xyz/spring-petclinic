@@ -5,7 +5,9 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class NewOwnerDto {
+public class OwnerDto {
+	private Integer eid;
+
 	@NotBlank
 	private String firstName;
 

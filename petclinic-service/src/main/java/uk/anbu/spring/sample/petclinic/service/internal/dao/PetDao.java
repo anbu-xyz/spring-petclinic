@@ -26,6 +26,7 @@ public class PetDao {
 			.name(newPet.name())
 			.birthDate(newPet.birthDate())
 			.type(newPet.type().code())
+			.ownerId(newPet.ownerId())
 			.updateTimestampUtc(currentTime)
 			.build();
 

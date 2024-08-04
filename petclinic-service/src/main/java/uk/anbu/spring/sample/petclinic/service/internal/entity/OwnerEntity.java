@@ -80,7 +80,8 @@ public class OwnerEntity implements BaseEntity {
 		throw new IllegalArgumentException("To be deleted");
 	}
 
-	public PetEntity getPet(String name, boolean b) {
+	public PetEntity getPet(String name, boolean ignoreNew) {
+		// return matching pet if !isNew, !ignoreNew - else return null
 		throw new IllegalArgumentException("To be deleted");
 	}
 

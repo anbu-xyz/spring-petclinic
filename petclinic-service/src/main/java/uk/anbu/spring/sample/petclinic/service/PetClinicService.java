@@ -11,9 +11,12 @@ import uk.anbu.spring.sample.petclinic.lib.PropertySourceBuilder;
 import uk.anbu.spring.sample.petclinic.model.Pet;
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.PetRepository;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.util.List;
 
 public class PetClinicService {
@@ -94,5 +97,40 @@ public class PetClinicService {
 				.build())
 			.toList();
 		return new PageImpl<>(dtoList, pageable, result.getTotalPages());
+	}
+
+	public PetDto getPet(Integer ownerEid, String petName, boolean ignoreNew) {
+//		if (ignoreNew) return null;
+		var owner = petClinicContext.getBean(OwnerRepository.class).findById(ownerEid);
+		if (owner.isEmpty()) {
+			throw new IllegalArgumentException("Owner with id #" + ownerEid + " is not present");
+		}
+		var petEntity = petClinicContext.getBean(PetRepository.class).findByPetName(ownerEid, petName);
+
+		if (petEntity.isEmpty()) return null;
+
+		return PetDto.builder()
+			.name(petEntity.get(0).getName())
+			.type(Pet.PetType.of(petEntity.get(0).getType()))
+			.ownerId(ownerEid)
+			.birthDate(petEntity.get(0).getBirthDate())
+			.eid(petEntity.get(0).getEid())
+			.build();
+	}
+
+	public Integer registerNewPet(PetDto dto) {
+		var entity = PetEntity.builder()
+			.birthDate(dto.getBirthDate())
+			.name(dto.getName())
+			.type(dto.getType().code())
+			.ownerId(dto.getOwnerId())
+			.updateTimestampUtc(clock().sqlTimestamp())
+			.build();
+		var savedEntity = petClinicContext.getBean(PetRepository.class).save(entity);
+		return savedEntity.getEid();
+	}
+
+	public LocalDate currentDate() {
+		return clock().currentDate();
 	}
 }

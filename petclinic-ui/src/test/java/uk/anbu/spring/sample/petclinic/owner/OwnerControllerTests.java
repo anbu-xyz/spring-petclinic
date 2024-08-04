@@ -33,7 +33,6 @@ import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
-import uk.anbu.spring.sample.petclinic.service.internal.entity.PetTypeEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.model.Pet;
@@ -86,7 +85,6 @@ class OwnerControllerTests {
         george.setCity("Madison");
         george.setTelephone("6085551023");
         PetEntity max = new PetEntity();
-        PetTypeEntity dog = new PetTypeEntity();
         max.setType(Pet.PetType.of("dog"));
         max.setName("Max");
         max.setBirthDate(LocalDate.now());

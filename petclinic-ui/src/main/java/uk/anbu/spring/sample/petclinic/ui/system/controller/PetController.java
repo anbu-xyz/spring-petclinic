@@ -16,8 +16,11 @@
 package uk.anbu.spring.sample.petclinic.ui.system.controller;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -32,9 +35,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.anbu.spring.sample.petclinic.dto.PetDto;
+import uk.anbu.spring.sample.petclinic.model.Pet;
+import uk.anbu.spring.sample.petclinic.service.PetClinicService;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
-import uk.anbu.spring.sample.petclinic.service.internal.entity.PetTypeEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 
 /**
@@ -44,19 +49,20 @@ import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerReposito
  */
 @Controller
 @RequestMapping("/owners/{ownerId}")
+@RequiredArgsConstructor
 public class PetController {
 
     private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
     private final OwnerRepository owners;
 
-    PetController(OwnerRepository owners) {
-        this.owners = owners;
-    }
+	private final PetClinicService petClinicService;
 
     @ModelAttribute("types")
-    public Collection<PetTypeEntity> populatePetTypes() {
-        return this.owners.findPetTypes();
+    public static Collection<Pet.PetType> populatePetTypes() {
+        return Arrays.stream(Pet.Type.values())
+			.map(Pet.PetType::of)
+			.toList();
     }
 
     @ModelAttribute("owner")
@@ -96,31 +102,37 @@ public class PetController {
 
 	@GetMapping("/pets/new")
 	public String initCreationForm(OwnerEntity owner, ModelMap model) {
-		PetEntity pet = new PetEntity();
-		owner.addPet(pet);
+		PetDto pet = new PetDto();
+		pet.setOwnerId(owner.getEid());
 		model.put("pet", pet);
+
+		var typeStrings = ((List<Pet.PetType>) model.get("types"))
+			.stream()
+			.map(Pet.PetType::code)
+			.toList();
+				model.put("types", typeStrings);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping("/pets/new")
-	public String processCreationForm(OwnerEntity owner, @Valid PetEntity pet, BindingResult result, ModelMap model,
+	public String processCreationForm(OwnerEntity owner, @Valid PetDto petDto, BindingResult result, ModelMap model,
 									  RedirectAttributes redirectAttributes) {
-		if (StringUtils.hasText(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
+		var storedPetDetails = petClinicService.getPet(petDto.getOwnerId(), petDto.getName(), true);
+		if (storedPetDetails != null && StringUtils.hasText(storedPetDetails.getName()) && storedPetDetails.isNew()) {
 			result.rejectValue("name", "duplicate", "already exists");
 		}
 
-		LocalDate currentDate = LocalDate.now();
-		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
+		LocalDate currentDate = petClinicService.currentDate();
+		if (petDto.getBirthDate() != null && petDto.getBirthDate().isAfter(currentDate)) {
 			result.rejectValue("birthDate", "typeMismatch.birthDate");
 		}
 
-		owner.addPet(pet);
 		if (result.hasErrors()) {
-			model.put("pet", pet);
+			model.put("pet", petDto);
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 
-		this.owners.save(owner);
+		petClinicService.registerNewPet(petDto);
 		redirectAttributes.addFlashAttribute("message", "New Pet has been Added");
 		return "redirect:/owners/{ownerId}";
 	}

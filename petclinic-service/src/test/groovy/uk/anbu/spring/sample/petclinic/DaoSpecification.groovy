@@ -26,13 +26,13 @@ import java.time.LocalTime
 
 class DaoSpecification extends Specification {
     @Shared
-    static PetClinicService service;
+    PetClinicService service
     @Shared
-    static OwnerEntity testOwner;
+    OwnerEntity testOwner
     @Shared
-    static PetEntity testPet;
+    PetEntity testPet
     @Shared
-    static VetEntity testVet;
+    VetEntity testVet
 
     def setupSpec() {
         def config = PetClinicServiceContext.Config.builder()
@@ -69,6 +69,7 @@ class DaoSpecification extends Specification {
     def "Able to save and retrieve pet"() {
         given:
         def dao = service.getBean(PetDao)
+        println testOwner
         def pet = Pet.builder()
                 .ownerId(testOwner.eid)
                 .birthDate(LocalDate.of(2020, 3, 4))

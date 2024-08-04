@@ -16,9 +16,13 @@ databaseChangeLog:
             - column:
                 name: name
                 type: varchar(30)
+                constraints:
+                  nullable: false
             - column:
                 name: birth_date
                 type: date
+                constraints:
+                  nullable: false
             - column:
                 name: type
                 type: varchar(30)
@@ -27,9 +31,13 @@ databaseChangeLog:
             - column:
                 name: owner_id
                 type: integer
+                constraints:
+                  nullable: false
             - column:
                 name: update_timestamp_utc
                 type: timestamp
+                constraints:
+                  nullable: false
         - createSequence:
            cacheSize: 100
            cycle: false

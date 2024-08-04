@@ -1,9 +1,15 @@
 # database init
 database: h2
-#spring.sql.init.data-locations: "classpath*:db/${database}/data.sql"
-
-# Liquibase - We want to run our own instance of liquibase, not spring autoconfigured one
-spring.liquibase.enabled: false
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost:4000/testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  liquibase:
+    enabled: false # Liquibase - We want to run our own instance of liquibase, not spring autoconfigured one
 
 # Web
 spring.thymeleaf.mode: HTML

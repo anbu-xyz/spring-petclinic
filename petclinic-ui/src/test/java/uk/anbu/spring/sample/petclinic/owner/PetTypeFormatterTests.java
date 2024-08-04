@@ -32,7 +32,7 @@ import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.anbu.spring.sample.petclinic.service.internal.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.model.Pet;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.ui.system.controller.PetTypeFormatter;
 
@@ -57,44 +57,22 @@ class PetTypeFormatterTests {
 
     @Test
     void testPrint() {
-        PetTypeEntity petType = new PetTypeEntity();
-        petType.setName("Hamster");
+        Pet.PetType petType = Pet.PetType.of("Hamster");
         String petTypeName = this.petTypeFormatter.print(petType, Locale.ENGLISH);
-        assertThat(petTypeName).isEqualTo("Hamster");
+        assertThat(petTypeName).isEqualTo("HAMSTER");
     }
 
     @Test
     void shouldParse() throws ParseException {
-        given(this.pets.findPetTypes()).willReturn(makePetTypes());
-        PetTypeEntity petType = petTypeFormatter.parse("Bird", Locale.ENGLISH);
-        assertThat(petType.getName()).isEqualTo("Bird");
+        Pet.PetType petType = petTypeFormatter.parse("BIRD", Locale.ENGLISH);
+        assertThat(petType.code()).isEqualTo("BIRD");
     }
 
     @Test
     void shouldThrowParseException() throws ParseException {
-        given(this.pets.findPetTypes()).willReturn(makePetTypes());
         Assertions.assertThrows(ParseException.class, () -> {
             petTypeFormatter.parse("Fish", Locale.ENGLISH);
         });
-    }
-
-    /**
-     * Helper method to produce some sample pet types just for test purpose
-     * @return {@link Collection} of {@link PetTypeEntity}
-     */
-    private List<PetTypeEntity> makePetTypes() {
-        List<PetTypeEntity> petTypes = new ArrayList<>();
-        petTypes.add(new PetTypeEntity() {
-            {
-                setName("Dog");
-            }
-        });
-        petTypes.add(new PetTypeEntity() {
-            {
-                setName("Bird");
-            }
-        });
-        return petTypes;
     }
 
 }

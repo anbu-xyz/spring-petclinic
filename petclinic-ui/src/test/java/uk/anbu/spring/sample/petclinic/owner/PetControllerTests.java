@@ -28,10 +28,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
-import uk.anbu.spring.sample.petclinic.api.db.entity.OwnerEntity;
-import uk.anbu.spring.sample.petclinic.api.db.entity.PetEntity;
-import uk.anbu.spring.sample.petclinic.api.db.entity.PetTypeEntity;
-import uk.anbu.spring.sample.petclinic.api.db.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.service.db.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.service.db.entity.PetEntity;
+import uk.anbu.spring.sample.petclinic.service.db.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.service.db.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.ui.system.controller.PetController;
 import uk.anbu.spring.sample.petclinic.ui.system.controller.PetTypeFormatter;
 

@@ -11,14 +11,17 @@ public class PetClinicService {
 
 	public PetClinicService(PetClinicServiceContext.Config config) {
 		this.petClinicContext = new AnnotationConfigApplicationContext();
-		this.petClinicContext.addBeanFactoryPostProcessor(
-			PropertySourceBuilder.propertyConfigurer(PetClinicServiceContext.class));
-		this.petClinicContext.registerBean(DataSource.class, config::dataSource);
+
 		this.petClinicContext.registerBean(GlobalUtcClock.class, config::clock);
+		this.petClinicContext.registerBean(DataSource.class, config::dataSource);
+
 		this.petClinicContext.register(PetClinicServiceContext.class);
 
 		this.petClinicContext.getEnvironment().getPropertySources()
 			.addLast(PropertySourceBuilder.forService(PetClinicServiceContext.class));
+
+		this.petClinicContext.addBeanFactoryPostProcessor(
+			PropertySourceBuilder.propertyConfigurer(PetClinicServiceContext.class));
 
 		this.petClinicContext.refresh();
 	}

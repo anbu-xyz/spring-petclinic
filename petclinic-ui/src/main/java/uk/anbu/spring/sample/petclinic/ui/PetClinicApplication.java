@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic;
+package uk.anbu.spring.sample.petclinic.ui;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +7,9 @@ import org.springframework.context.annotation.ImportRuntimeHints;
 import uk.anbu.spring.sample.petclinic.service.PetClinicService;
 import uk.anbu.spring.sample.petclinic.service.PetClinicServiceContext;
 import uk.anbu.spring.sample.petclinic.lib.DefaultGlobalUtcClock;
-import uk.anbu.spring.sample.petclinic.ui.PetClinicRuntimeHints;
+import uk.anbu.spring.sample.petclinic.service.db.dao.OwnerDao;
+import uk.anbu.spring.sample.petclinic.service.db.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.service.db.repository.VetRepository;
 
 import javax.sql.DataSource;
 
@@ -25,5 +27,23 @@ public class PetClinicApplication {
 			.dataSource(dataSource)
 			.clock(new DefaultGlobalUtcClock())
 			.build());
+	}
+
+	@Bean
+	OwnerRepository ownerRepository(PetClinicService petClinicService) {
+		// TODO: Remove this
+		return petClinicService.getBean(OwnerRepository.class);
+	}
+
+	@Bean
+	VetRepository vetRepository(PetClinicService petClinicService) {
+		// TODO: Remove this
+		return petClinicService.getBean(VetRepository.class);
+	}
+
+	@Bean
+	OwnerDao ownerDao(PetClinicService petClinicService) {
+		// TODO: Remove this
+		return petClinicService.getBean(OwnerDao.class);
 	}
 }

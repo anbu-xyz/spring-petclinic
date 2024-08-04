@@ -44,7 +44,7 @@ public class PetClinicServiceContext {
 		factory.setDataSource(dataSource);
 
 		Properties props = new Properties();
-		// TODO: Do these work?
+		// TODO: move this to properties file
 		props.put("hibernate.generate_statistics", "true");
 		props.put("hibernate.session.events.log.LOG_QUEIRS_SLOWER_THAN_MS", "10");
 		props.put("hibernate.jmx.enabled", "true");

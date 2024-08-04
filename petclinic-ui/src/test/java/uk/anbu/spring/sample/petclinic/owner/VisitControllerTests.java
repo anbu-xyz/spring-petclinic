@@ -32,9 +32,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
-import uk.anbu.spring.sample.petclinic.api.db.entity.OwnerEntity;
-import uk.anbu.spring.sample.petclinic.api.db.entity.PetEntity;
-import uk.anbu.spring.sample.petclinic.api.db.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.service.db.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.service.db.entity.PetEntity;
+import uk.anbu.spring.sample.petclinic.service.db.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.ui.system.controller.VisitController;
 
 /**

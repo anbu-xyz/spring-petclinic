@@ -32,8 +32,8 @@ import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.anbu.spring.sample.petclinic.api.db.entity.PetTypeEntity;
-import uk.anbu.spring.sample.petclinic.api.db.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.service.db.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.service.db.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.ui.system.controller.PetTypeFormatter;
 
 /**

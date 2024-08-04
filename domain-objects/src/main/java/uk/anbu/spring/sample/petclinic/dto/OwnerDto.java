@@ -2,9 +2,13 @@ package uk.anbu.spring.sample.petclinic.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
+@Builder
 public class OwnerDto {
 	private Integer eid;
 
@@ -23,4 +27,6 @@ public class OwnerDto {
 	@NotBlank
 	@Pattern(regexp = "\\d{10}", message = "Telephone must be a 10-digit number")
 	private String telephone;
+
+	private List<PetDto> pets;
 }

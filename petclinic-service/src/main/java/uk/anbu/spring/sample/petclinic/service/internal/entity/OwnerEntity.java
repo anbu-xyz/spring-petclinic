@@ -1,5 +1,6 @@
 package uk.anbu.spring.sample.petclinic.service.internal.entity;
 
+import jakarta.persistence.FetchType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -65,7 +66,7 @@ public class OwnerEntity implements BaseEntity {
 	@Pattern(regexp = "\\d{10}", message = "Telephone must be a 10-digit number")
 	private String telephone;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "owner_id")
 	@OrderBy("name")
 	@Column(insertable = false, updatable = false)

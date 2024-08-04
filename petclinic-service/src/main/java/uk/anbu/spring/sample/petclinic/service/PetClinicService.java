@@ -1,9 +1,14 @@
 package uk.anbu.spring.sample.petclinic.service;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
+import uk.anbu.spring.sample.petclinic.dto.PetDto;
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.lib.PropertySourceBuilder;
+import uk.anbu.spring.sample.petclinic.model.Pet;
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
@@ -66,5 +71,28 @@ public class PetClinicService {
 			.pets(List.of())
 			.build();
 		petClinicContext.getBean(OwnerRepository.class).save(entity);
+	}
+
+	public Page<OwnerDto> findOwnerByLastName(String lastname, Pageable pageable) {
+		var result = petClinicContext.getBean(OwnerRepository.class).findByLastName(lastname, pageable);
+		var dtoList = result.getContent().stream()
+			.map(x -> OwnerDto.builder()
+				.firstName(x.getFirstName())
+				.lastName(x.getLastName())
+				.address(x.getAddress())
+				.telephone(x.getTelephone())
+				.eid(x.getEid())
+				.city(x.getCity())
+				.pets(x.getPets().stream()
+					.map(p -> PetDto.builder()
+						.ownerId(p.getOwnerId())
+						.name(p.getName())
+						.birthDate(p.getBirthDate())
+						.type(Pet.PetType.of(p.getType()))
+						.build())
+					.toList())
+				.build())
+			.toList();
+		return new PageImpl<>(dtoList, pageable, result.getTotalPages());
 	}
 }

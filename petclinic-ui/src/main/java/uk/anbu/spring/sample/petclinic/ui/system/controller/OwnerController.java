@@ -73,7 +73,7 @@ public class OwnerController {
 	}
 
 	@GetMapping("/owners")
-	public String processFindForm(@RequestParam(defaultValue = "1") int page, OwnerEntity owner, BindingResult result,
+	public String processFindForm(@RequestParam(defaultValue = "1") int page, OwnerDto owner, BindingResult result,
 								  Model model) {
 		// allow parameterless GET request for /owners to return all records
 		if (owner.getLastName() == null) {
@@ -81,7 +81,7 @@ public class OwnerController {
 		}
 
 		// find owners by last name
-		Page<OwnerEntity> ownersResults = findPaginatedForOwnersLastName(page, owner.getLastName());
+		var ownersResults = findPaginatedForOwnersLastName(page, owner.getLastName());
 		if (ownersResults.isEmpty()) {
 			// no owners found
 			result.rejectValue("lastName", "notFound", "not found");
@@ -98,8 +98,8 @@ public class OwnerController {
 		return addPaginationModel(page, model, ownersResults);
 	}
 
-	private String addPaginationModel(int page, Model model, Page<OwnerEntity> paginated) {
-		List<OwnerEntity> listOwners = paginated.getContent();
+	private String addPaginationModel(int page, Model model, Page<OwnerDto> paginated) {
+		List<OwnerDto> listOwners = paginated.getContent();
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", paginated.getTotalPages());
 		model.addAttribute("totalItems", paginated.getTotalElements());
@@ -107,10 +107,10 @@ public class OwnerController {
 		return "owners/ownersList";
 	}
 
-	private Page<OwnerEntity> findPaginatedForOwnersLastName(int page, String lastname) {
+	private Page<OwnerDto> findPaginatedForOwnersLastName(int page, String lastname) {
 		int pageSize = 5;
 		Pageable pageable = PageRequest.of(page - 1, pageSize);
-		return owners.findByLastName(lastname, pageable);
+		return petClinicService.findOwnerByLastName(lastname, pageable);
 	}
 
 	@GetMapping("/owners/{ownerId}/edit")

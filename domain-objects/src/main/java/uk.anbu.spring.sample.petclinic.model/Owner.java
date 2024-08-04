@@ -5,5 +5,4 @@ import lombok.Builder;
 @Builder
 public record Owner(Integer ownerId, String firstName, String lastName, String address, String city,
 					String telephone) {
-
 }

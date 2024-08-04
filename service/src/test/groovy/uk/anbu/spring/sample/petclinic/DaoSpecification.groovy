@@ -9,6 +9,8 @@ import uk.anbu.spring.sample.petclinic.api.db.dao.PetDao
 import uk.anbu.spring.sample.petclinic.api.db.dao.VetDao
 import uk.anbu.spring.sample.petclinic.api.db.dao.VisitDao
 import uk.anbu.spring.sample.petclinic.api.db.entity.OwnerEntity
+import uk.anbu.spring.sample.petclinic.api.db.entity.PetEntity
+import uk.anbu.spring.sample.petclinic.api.db.entity.VetEntity
 import uk.anbu.spring.sample.petclinic.lib.ResettableGlobalUtcClock
 import uk.anbu.spring.sample.petclinic.lib.db.DataSourceWrapper
 import uk.anbu.spring.sample.petclinic.model.Owner
@@ -27,6 +29,10 @@ class DaoSpecification extends Specification {
     static PetClinicService service;
     @Shared
     static OwnerEntity testOwner;
+    @Shared
+    static PetEntity testPet;
+    @Shared
+    static VetEntity testVet;
 
     def setupSpec() {
         def config = PetClinicServiceContext.Config.builder()
@@ -73,6 +79,7 @@ class DaoSpecification extends Specification {
         when:
         def saved = dao.add(pet)
         def read = dao.findById(saved.eid)
+        testPet = read.get()
 
         then:
         read.isPresent()
@@ -86,12 +93,13 @@ class DaoSpecification extends Specification {
                 .firstName("vet first")
                 .lastName("vet last")
                 .vetRegistrationId("RN-101")
-                .specialty([RADIOLOGY, SURGERY].collect{Vet.SpecialtyType.of(it)})
+                .specialty([RADIOLOGY, SURGERY].collect { Vet.SpecialtyType.of(it) })
                 .build()
 
         when:
         def saved = dao.add(vet)
         def read = dao.findById(saved.eid)
+        testVet = read.get()
 
         then:
         read.isPresent()
@@ -102,6 +110,10 @@ class DaoSpecification extends Specification {
         given:
         def dao = service.getBean(VisitDao)
         def visit = Visit.builder()
+                .vetId(testVet.eid)
+                .petId(testPet.eid)
+                .visitDate(LocalDate.of(2020, 5, 7))
+                .description("my pet was sick")
                 .build()
 
         when:

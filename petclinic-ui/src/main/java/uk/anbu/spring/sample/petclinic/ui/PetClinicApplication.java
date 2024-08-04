@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportRuntimeHints;
 import uk.anbu.spring.sample.petclinic.service.PetClinicService;
-import uk.anbu.spring.sample.petclinic.service.PetClinicServiceContext;
+import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
 import uk.anbu.spring.sample.petclinic.lib.DefaultGlobalUtcClock;
-import uk.anbu.spring.sample.petclinic.service.db.dao.OwnerDao;
-import uk.anbu.spring.sample.petclinic.service.db.repository.OwnerRepository;
-import uk.anbu.spring.sample.petclinic.service.db.repository.VetRepository;
+import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.VetRepository;
 
 import javax.sql.DataSource;
 

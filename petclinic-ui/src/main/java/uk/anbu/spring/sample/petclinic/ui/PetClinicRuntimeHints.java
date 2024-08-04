@@ -18,8 +18,8 @@ package uk.anbu.spring.sample.petclinic.ui;
 
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
-import uk.anbu.spring.sample.petclinic.service.db.BaseEntity;
-import uk.anbu.spring.sample.petclinic.service.db.entity.VetEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.BaseEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.VetEntity;
 
 public class PetClinicRuntimeHints implements RuntimeHintsRegistrar {
 

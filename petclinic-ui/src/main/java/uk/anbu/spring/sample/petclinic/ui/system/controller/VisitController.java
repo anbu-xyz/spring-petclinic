@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import uk.anbu.spring.sample.petclinic.service.db.entity.OwnerEntity;
-import uk.anbu.spring.sample.petclinic.service.db.entity.PetEntity;
-import uk.anbu.spring.sample.petclinic.service.db.entity.VisitEntity;
-import uk.anbu.spring.sample.petclinic.service.db.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 
 /**
  * @author Juergen Hoeller

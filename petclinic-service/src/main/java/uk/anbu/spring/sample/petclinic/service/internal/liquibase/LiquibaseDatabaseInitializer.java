@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service.db.liquibase;
+package uk.anbu.spring.sample.petclinic.service.internal.liquibase;
 
 import liquibase.Liquibase;
 import liquibase.database.Database;

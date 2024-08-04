@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.anbu.spring.sample.petclinic.service.db.entity;
+package uk.anbu.spring.sample.petclinic.service.internal.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +24,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
-import uk.anbu.spring.sample.petclinic.service.db.BaseEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.BaseEntity;
 
 /**
  * @author Juergen Hoeller Can be Cat, Dog, Hamster...

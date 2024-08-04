@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service.db.entity;
+package uk.anbu.spring.sample.petclinic.service.internal.entity;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import uk.anbu.spring.sample.petclinic.service.db.BaseEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.BaseEntity;
 
 @Entity
 @Table(name = "visits")

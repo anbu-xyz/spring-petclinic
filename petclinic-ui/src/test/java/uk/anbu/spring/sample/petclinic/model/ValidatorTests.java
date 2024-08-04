@@ -29,7 +29,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
-import uk.anbu.spring.sample.petclinic.service.db.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.lib.ResettableGlobalUtcClock;
 
 /**

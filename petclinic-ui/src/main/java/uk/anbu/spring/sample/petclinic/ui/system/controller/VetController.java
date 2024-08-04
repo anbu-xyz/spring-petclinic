@@ -10,9 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import uk.anbu.spring.sample.petclinic.service.db.entity.VetEntity;
-import uk.anbu.spring.sample.petclinic.service.db.entity.Vets;
-import uk.anbu.spring.sample.petclinic.service.db.repository.VetRepository;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.VetEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.Vets;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.VetRepository;
 
 @Controller
 public class VetController {

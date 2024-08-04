@@ -17,7 +17,7 @@ package uk.anbu.spring.sample.petclinic.vet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.util.SerializationUtils;
-import uk.anbu.spring.sample.petclinic.service.db.entity.VetEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.VetEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -31,11 +31,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.web.servlet.MockMvc;
-import uk.anbu.spring.sample.petclinic.service.db.entity.OwnerEntity;
-import uk.anbu.spring.sample.petclinic.service.db.entity.PetEntity;
-import uk.anbu.spring.sample.petclinic.service.db.entity.PetTypeEntity;
-import uk.anbu.spring.sample.petclinic.service.db.entity.VisitEntity;
-import uk.anbu.spring.sample.petclinic.service.db.repository.OwnerRepository;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.model.Pet;
 import uk.anbu.spring.sample.petclinic.ui.system.controller.OwnerController;
 

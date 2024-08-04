@@ -1,11 +1,11 @@
-package uk.anbu.spring.sample.petclinic.service.db.dao;
+package uk.anbu.spring.sample.petclinic.service.internal.dao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import uk.anbu.spring.sample.petclinic.service.db.entity.VisitEntity;
-import uk.anbu.spring.sample.petclinic.service.db.repository.VisitRepository;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.VisitRepository;
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.model.Visit;
 

@@ -18,7 +18,7 @@ package uk.anbu.spring.sample.petclinic.ui.system.controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import uk.anbu.spring.sample.petclinic.service.db.entity.PetEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 
 /**
  * <code>Validator</code> for <code>Pet</code> forms.

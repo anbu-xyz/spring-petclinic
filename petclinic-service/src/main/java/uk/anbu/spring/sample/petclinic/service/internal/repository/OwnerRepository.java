@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service.db.repository;
+package uk.anbu.spring.sample.petclinic.service.internal.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import uk.anbu.spring.sample.petclinic.service.db.entity.OwnerEntity;
-import uk.anbu.spring.sample.petclinic.service.db.entity.PetTypeEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.PetTypeEntity;
 
 public interface OwnerRepository extends CrudRepository<OwnerEntity, Integer> {
 

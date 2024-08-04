@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service.db.entity;
+package uk.anbu.spring.sample.petclinic.service.internal.entity;
 
 import java.util.ArrayList;
 import java.util.List;

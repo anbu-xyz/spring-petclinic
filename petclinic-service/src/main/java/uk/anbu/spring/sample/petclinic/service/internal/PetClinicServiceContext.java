@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service;
+package uk.anbu.spring.sample.petclinic.service.internal;
 
 import jakarta.persistence.EntityManagerFactory;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import uk.anbu.spring.sample.petclinic.service.db.liquibase.LiquibaseDatabaseInitializer;
+import uk.anbu.spring.sample.petclinic.service.internal.liquibase.LiquibaseDatabaseInitializer;
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 
 import javax.sql.DataSource;

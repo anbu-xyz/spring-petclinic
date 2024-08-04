@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service.db.entity;
+package uk.anbu.spring.sample.petclinic.service.internal.entity;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -25,7 +25,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import uk.anbu.spring.sample.petclinic.service.db.BaseEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.BaseEntity;
 import uk.anbu.spring.sample.petclinic.model.Pet;
 
 @Entity

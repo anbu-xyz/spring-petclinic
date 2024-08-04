@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service.db.entity;
+package uk.anbu.spring.sample.petclinic.service.internal.entity;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import uk.anbu.spring.sample.petclinic.service.db.BaseEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.BaseEntity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

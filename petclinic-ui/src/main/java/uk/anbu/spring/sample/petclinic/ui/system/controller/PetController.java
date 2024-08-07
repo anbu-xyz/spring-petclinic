@@ -1,18 +1,3 @@
-/*
- * Copyright 2012-2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package uk.anbu.spring.sample.petclinic.ui.system.controller;
 
 import java.time.LocalDate;
@@ -42,11 +27,6 @@ import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 
-/**
- * @author Juergen Hoeller
- * @author Ken Krebs
- * @author Arjen Poutsma
- */
 @Controller
 @RequestMapping("/owners/{ownerId}")
 @RequiredArgsConstructor
@@ -68,11 +48,11 @@ public class PetController {
     @ModelAttribute("owner")
     public OwnerEntity findOwner(@PathVariable("ownerId") int ownerId) {
 
-        OwnerEntity owner = this.owners.findById(ownerId).get();
-        if (owner == null) {
+        var owner = this.owners.findById(ownerId);
+        if (owner.isEmpty()) {
     		throw new IllegalArgumentException("Owner ID not found: " + ownerId);
 		}
-		return owner;
+		return owner.get();
 	}
 
 	@ModelAttribute("pet")
@@ -83,11 +63,11 @@ public class PetController {
 			return new PetEntity();
 		}
 
-		OwnerEntity owner = this.owners.findById(ownerId).get();
-		if (owner == null) {
+		var owner = this.owners.findById(ownerId);
+		if (owner.isEmpty()) {
 			throw new IllegalArgumentException("Owner ID not found: " + ownerId);
 		}
-		return owner.getPet(petId);
+		return petClinicService.findPet(petId);
 	}
 
 	@InitBinder("owner")
@@ -97,7 +77,7 @@ public class PetController {
 
 	@InitBinder("pet")
 	public void initPetBinder(WebDataBinder dataBinder) {
-		dataBinder.setValidator(new PetValidator());
+//		dataBinder.setValidator(new PetValidator()); // TODO: fix this
 	}
 
 	@GetMapping("/pets/new")
@@ -140,7 +120,7 @@ public class PetController {
 	@GetMapping("/pets/{petId}/edit")
 	public String initUpdateForm(OwnerEntity owner, @PathVariable("petId") int petId, ModelMap model,
 								 RedirectAttributes redirectAttributes) {
-		PetEntity pet = owner.getPet(petId);
+		var pet = petClinicService.findPet(petId);
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}

@@ -17,6 +17,7 @@ package uk.anbu.spring.sample.petclinic.ui.system.controller;
 
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.anbu.spring.sample.petclinic.service.PetClinicService;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
@@ -41,13 +43,12 @@ import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerReposito
  * @author Dave Syer
  */
 @Controller
+@RequiredArgsConstructor
 public class VisitController {
 
     private final OwnerRepository owners;
 
-    VisitController(OwnerRepository owners) {
-        this.owners = owners;
-    }
+	private final PetClinicService petClinicService;
 
     @InitBinder
     public void setAllowedFields(WebDataBinder dataBinder) {
@@ -66,7 +67,7 @@ public class VisitController {
 										Map<String, Object> model) {
         OwnerEntity owner = this.owners.findById(ownerId).get();
 
-        PetEntity pet = owner.getPet(petId);
+        PetEntity pet = petClinicService.findPet(petId);
         model.put("pet", pet);
         model.put("owner", owner);
 

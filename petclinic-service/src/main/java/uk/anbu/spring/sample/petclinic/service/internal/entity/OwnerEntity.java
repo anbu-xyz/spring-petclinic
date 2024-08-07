@@ -72,9 +72,6 @@ public class OwnerEntity implements BaseEntity {
 	@Column(insertable = false, updatable = false)
 	private List<PetEntity> pets = new ArrayList<>();
 
-	public PetEntity getPet(int petId) {
-		throw new IllegalArgumentException("To be deleted");
-	}
 
 	public void addPet(PetEntity pet) {
 		throw new IllegalArgumentException("To be deleted");
@@ -89,7 +86,4 @@ public class OwnerEntity implements BaseEntity {
 		throw new IllegalArgumentException("To be deleted");
 	}
 
-	public PetEntity getPet(String max) {
-		throw new IllegalArgumentException("to be deleted");
-	}
 }

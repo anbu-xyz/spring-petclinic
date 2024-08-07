@@ -18,6 +18,7 @@ import uk.anbu.spring.sample.petclinic.service.internal.repository.PetRepository
 import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class PetClinicService {
 	private final AnnotationConfigApplicationContext petClinicContext;
@@ -132,5 +133,9 @@ public class PetClinicService {
 
 	public LocalDate currentDate() {
 		return clock().currentDate();
+	}
+
+	public PetEntity findPet(int petId) {
+		return petClinicContext.getBean(PetRepository.class).findById(petId).orElse(null);
 	}
 }

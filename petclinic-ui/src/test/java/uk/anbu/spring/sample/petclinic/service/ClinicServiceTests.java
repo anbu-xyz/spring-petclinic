@@ -20,6 +20,7 @@ import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerReposito
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VetEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.PetRepository;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.VetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
@@ -39,6 +40,9 @@ class ClinicServiceTests {
 
     @Autowired
     protected VetRepository vets;
+
+	@Autowired
+	protected PetRepository pets;
 
     Pageable pageable;
 
@@ -118,7 +122,7 @@ class ClinicServiceTests {
         owner6 = this.owners.findById(6).get();
         assertThat(owner6.getPets()).hasSize(found + 1);
         // checks that id has been generated
-        pet = owner6.getPet(3);
+        pet = pets.findById(3).get();
         assertThat(pet.getEid()).isNotNull();
     }
 
@@ -127,7 +131,7 @@ class ClinicServiceTests {
 	@Sql("classpath:db/h2/data.sql")
     void shouldUpdatePetName() {
         OwnerEntity owner6 = this.owners.findById(6).get();
-        PetEntity pet7 = owner6.getPet(7);
+        PetEntity pet7 = pets.findById(7).get();
         String oldName = pet7.getName();
 
         String newName = oldName + "X";
@@ -135,7 +139,7 @@ class ClinicServiceTests {
         this.owners.save(owner6);
 
         owner6 = this.owners.findById(6).get();
-        pet7 = owner6.getPet(7);
+        pet7 = pets.findById(7).get();
         assertThat(pet7.getName()).isEqualTo(newName);
     }
 
@@ -155,7 +159,7 @@ class ClinicServiceTests {
 	@Sql("classpath:db/h2/data.sql")
     void shouldAddNewVisitForPet() {
         OwnerEntity owner6 = this.owners.findById(6).get();
-        PetEntity pet7 = owner6.getPet(7);
+        PetEntity pet7 = pets.findById(7).get();
         int found = pet7.getVisits().size();
         VisitEntity visit = new VisitEntity();
     	visit.setDescription("test");
@@ -174,7 +178,7 @@ class ClinicServiceTests {
 	@Sql("classpath:db/h2/data.sql")
 	void shouldFindVisitsByPetId() {
 		OwnerEntity owner6 = this.owners.findById(6).get();
-		PetEntity pet7 = owner6.getPet(7);
+		PetEntity pet7 = pets.findById(7).get();
 		Collection<VisitEntity> visits = pet7.getVisits();
 
 		assertThat(visits) //

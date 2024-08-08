@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.anbu.spring.sample.petclinic.dto.PetDto;
 import uk.anbu.spring.sample.petclinic.model.Pet;
-import uk.anbu.spring.sample.petclinic.service.PetClinicService;
+import uk.anbu.spring.sample.petclinic.service.PetClinicServiceFacade;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 
@@ -35,7 +35,7 @@ public class PetController {
 
 	private final OwnerRepository owners;
 
-	private final PetClinicService petClinicService;
+	private final PetClinicServiceFacade petClinicService;
 
 	@ModelAttribute("types")
 	public static Collection<Pet.PetType> populatePetTypes() {

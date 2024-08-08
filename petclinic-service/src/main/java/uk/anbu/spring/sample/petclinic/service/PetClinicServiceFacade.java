@@ -6,24 +6,27 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
 import uk.anbu.spring.sample.petclinic.dto.PetDto;
+import uk.anbu.spring.sample.petclinic.dto.VisitDto;
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.lib.PropertySourceBuilder;
 import uk.anbu.spring.sample.petclinic.model.Pet;
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.PetRepository;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.VisitRepository;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class PetClinicService {
+public class PetClinicServiceFacade {
 	private final AnnotationConfigApplicationContext petClinicContext;
 
-	public PetClinicService(PetClinicServiceContext.Config config) {
+	public PetClinicServiceFacade(PetClinicServiceContext.Config config) {
 		this.petClinicContext = new AnnotationConfigApplicationContext();
 
 		this.petClinicContext.registerBean(GlobalUtcClock.class, config::clock);
@@ -164,5 +167,18 @@ public class PetClinicService {
 				.birthDate(p.getBirthDate())
 				.build())
 			.toList();
+	}
+
+	public void addVisit(VisitDto dto) {
+		var entity = VisitEntity.builder()
+			.petId(dto.getPetId())
+			.vetId(dto.getVetId())
+			.date(dto.getDate())
+			.eid(dto.getEid())
+			.updateTimestampUtc(clock().sqlTimestamp())
+			.description(dto.getDescription())
+			.build();
+		petClinicContext.getBean(VisitRepository.class)
+			.save(entity);
 	}
 }

@@ -2,7 +2,7 @@ package uk.anbu.spring.sample.petclinic
 
 import spock.lang.Shared
 import spock.lang.Specification
-import uk.anbu.spring.sample.petclinic.service.PetClinicService
+import uk.anbu.spring.sample.petclinic.service.PetClinicServiceFacade
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext
 import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao
 import uk.anbu.spring.sample.petclinic.service.internal.dao.PetDao
@@ -26,7 +26,7 @@ import java.time.LocalTime
 
 class DaoSpecification extends Specification {
     @Shared
-    PetClinicService service
+    PetClinicServiceFacade service
     @Shared
     OwnerEntity testOwner
     @Shared
@@ -41,7 +41,7 @@ class DaoSpecification extends Specification {
                         LocalDate.of(2020, 3, 4),
                         LocalTime.of(10, 10)))
                 .build()
-        service = new PetClinicService(config)
+        service = new PetClinicServiceFacade(config)
     }
 
     def "Able to save and retrieve owner"() {

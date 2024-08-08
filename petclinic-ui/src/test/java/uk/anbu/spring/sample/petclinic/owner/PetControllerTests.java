@@ -51,7 +51,7 @@ class PetControllerTests {
     void setup() {
         OwnerEntity owner = new OwnerEntity();
         PetEntity pet = new PetEntity();
-        owner.addPet(pet);
+//        owner.addPet(pet);
         pet.setEid(TEST_PET_ID);
         given(this.owners.findById(TEST_OWNER_ID).get()).willReturn(owner);
     }

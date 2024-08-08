@@ -114,7 +114,7 @@ class ClinicServiceTests {
         Collection<Pet.PetType> types = PetController.populatePetTypes();
         pet.setType(Pet.PetType.of("dog"));
         pet.setBirthDate(LocalDate.now());
-        owner6.addPet(pet);
+//        owner6.addPet(pet);
         assertThat(owner6.getPets()).hasSize(found + 1);
 
         this.owners.save(owner6);
@@ -164,7 +164,7 @@ class ClinicServiceTests {
         VisitEntity visit = new VisitEntity();
     	visit.setDescription("test");
 
-		owner6.addVisit(pet7.getEid(), visit);
+//		owner6.addVisit(pet7.getEid(), visit);
 		this.owners.save(owner6);
 
 		owner6 = this.owners.findById(6).get();

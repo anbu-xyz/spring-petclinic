@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import uk.anbu.spring.sample.petclinic.service.PetClinicService;
+import uk.anbu.spring.sample.petclinic.dto.VisitDto;
+import uk.anbu.spring.sample.petclinic.service.PetClinicServiceFacade;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 
@@ -24,7 +25,7 @@ public class VisitController {
 
     private final OwnerRepository owners;
 
-	private final PetClinicService petClinicService;
+	private final PetClinicServiceFacade petClinicFacade;
 
     @InitBinder
     public void setAllowedFields(WebDataBinder dataBinder) {
@@ -35,7 +36,7 @@ public class VisitController {
     public VisitEntity loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
 										Map<String, Object> model) {
         var owner = this.owners.findById(ownerId).get();
-        var pet = petClinicService.findPet(petId).get();
+        var pet = petClinicFacade.findPet(petId).get();
 
         model.put("pet", pet);
         model.put("owner", owner);
@@ -57,14 +58,13 @@ public class VisitController {
     // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
     // called
     @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
-    public String processNewVisitForm(@PathVariable int ownerId, @PathVariable int petId, @Valid VisitEntity visit,
+    public String processNewVisitForm(@PathVariable int ownerId, @PathVariable int petId, @Valid VisitDto visit,
 									  BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "pets/createOrUpdateVisitForm";
         }
 
-//        owner.addVisit(petId, visit);
-//        this.owners.save(owner);
+		petClinicFacade.addVisit(visit);
         redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
         return "redirect:/owners/{ownerId}";
     }

@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportRuntimeHints;
-import uk.anbu.spring.sample.petclinic.service.PetClinicService;
+import uk.anbu.spring.sample.petclinic.service.PetClinicServiceFacade;
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
 import uk.anbu.spring.sample.petclinic.lib.DefaultGlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao;
@@ -22,27 +22,27 @@ public class PetClinicApplication {
 	}
 
 	@Bean
-	PetClinicService petClinicService(DataSource dataSource) {
-		return new PetClinicService(PetClinicServiceContext.Config.builder()
+	PetClinicServiceFacade petClinicService(DataSource dataSource) {
+		return new PetClinicServiceFacade(PetClinicServiceContext.Config.builder()
 			.dataSource(dataSource)
 			.clock(new DefaultGlobalUtcClock())
 			.build());
 	}
 
 	@Bean
-	OwnerRepository ownerRepository(PetClinicService petClinicService) {
+	OwnerRepository ownerRepository(PetClinicServiceFacade petClinicService) {
 		// TODO: Remove this
 		return petClinicService.getBean(OwnerRepository.class);
 	}
 
 	@Bean
-	VetRepository vetRepository(PetClinicService petClinicService) {
+	VetRepository vetRepository(PetClinicServiceFacade petClinicService) {
 		// TODO: Remove this
 		return petClinicService.getBean(VetRepository.class);
 	}
 
 	@Bean
-	OwnerDao ownerDao(PetClinicService petClinicService) {
+	OwnerDao ownerDao(PetClinicServiceFacade petClinicService) {
 		// TODO: Remove this
 		return petClinicService.getBean(OwnerDao.class);
 	}

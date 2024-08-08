@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
-import uk.anbu.spring.sample.petclinic.service.PetClinicService;
+import uk.anbu.spring.sample.petclinic.service.PetClinicServiceFacade;
 import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 
@@ -35,7 +35,7 @@ public class OwnerController {
 
     private final OwnerDao owners;
 
-	private final PetClinicService petClinicService;
+	private final PetClinicServiceFacade petClinicService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {

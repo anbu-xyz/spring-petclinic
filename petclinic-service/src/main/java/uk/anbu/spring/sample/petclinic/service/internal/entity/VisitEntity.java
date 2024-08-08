@@ -31,7 +31,7 @@ public class VisitEntity implements BaseEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer eid;
 
-	@NotNull
+	// @NotNull
 	@Column(name = "vet_id")
 	private Integer vetId;
 
@@ -49,6 +49,5 @@ public class VisitEntity implements BaseEntity {
     private String description;
 
 	@Column(name = "update_timestamp_utc")
-	@NotNull
 	private Timestamp updateTimestampUtc;
 }

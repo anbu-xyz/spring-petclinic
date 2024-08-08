@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.anbu.spring.sample.petclinic.service.PetClinicService;
-import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -32,15 +32,17 @@ public class VisitController {
     }
 
     @ModelAttribute("visit")
-    public VisitEntity loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("eid") int petId,
+    public VisitEntity loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
 										Map<String, Object> model) {
-        OwnerEntity owner = this.owners.findById(ownerId).get();
+        var owner = this.owners.findById(ownerId).get();
+        var pet = petClinicService.findPet(petId).get();
 
-        var pet = petClinicService.findPet(petId);
         model.put("pet", pet);
         model.put("owner", owner);
+		model.put("visits", List.of());
 
         VisitEntity visit = new VisitEntity();
+
         // pet.get().addVisit(visit); // TODO: Fix it
         return visit;
     }
@@ -55,14 +57,14 @@ public class VisitController {
     // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
     // called
     @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
-    public String processNewVisitForm(@ModelAttribute OwnerEntity owner, @PathVariable int petId, @Valid VisitEntity visit,
+    public String processNewVisitForm(@PathVariable int ownerId, @PathVariable int petId, @Valid VisitEntity visit,
 									  BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "pets/createOrUpdateVisitForm";
         }
 
-        owner.addVisit(petId, visit);
-        this.owners.save(owner);
+//        owner.addVisit(petId, visit);
+//        this.owners.save(owner);
         redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
         return "redirect:/owners/{ownerId}";
     }

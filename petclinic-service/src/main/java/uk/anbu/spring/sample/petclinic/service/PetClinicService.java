@@ -92,8 +92,7 @@ public class PetClinicService {
 		return new PageImpl<>(dtoList, pageable, result.getTotalPages());
 	}
 
-	public PetDto getPet(Integer ownerEid, String petName, boolean ignoreNew) {
-//		if (ignoreNew) return null;
+	public PetDto getPet(Integer ownerEid, String petName) {
 		var owner = petClinicContext.getBean(OwnerRepository.class).findById(ownerEid);
 		if (owner.isEmpty()) {
 			throw new IllegalArgumentException("Owner with id #" + ownerEid + " is not present");

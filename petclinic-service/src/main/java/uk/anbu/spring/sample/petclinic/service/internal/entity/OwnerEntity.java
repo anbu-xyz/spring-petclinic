@@ -64,17 +64,4 @@ public class OwnerEntity implements BaseEntity {
 	@Transient
 	private List<PetEntity> pets = new ArrayList<>();
 
-	public void addPet(PetEntity pet) {
-		throw new IllegalArgumentException("To be deleted");
-	}
-
-	public PetEntity getPet(String name, boolean ignoreNew) {
-		// return matching pet if !isNew, !ignoreNew - else return null
-		throw new IllegalArgumentException("To be deleted");
-	}
-
-	public void addVisit(int petId, VisitEntity visit) {
-		throw new IllegalArgumentException("To be deleted");
-	}
-
 }

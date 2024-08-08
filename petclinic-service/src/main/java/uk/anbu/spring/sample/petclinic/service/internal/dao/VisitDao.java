@@ -40,4 +40,10 @@ public class VisitDao {
 	public Optional<VisitEntity> findById(Integer id) {
 		return visitRepository.findById(id);
 	}
+
+	@Transactional
+	public Optional<VisitEntity> findVisitsByPet(Integer petId) {
+		return visitRepository.findByPetId(petId);
+	}
+
 }

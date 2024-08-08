@@ -90,7 +90,7 @@ public class PetController {
 	@PostMapping("/pets/new")
 	public String processCreationForm(OwnerEntity owner, @Valid PetDto petDto, BindingResult result, ModelMap model,
 									  RedirectAttributes redirectAttributes) {
-		var storedPetDetails = petClinicService.getPet(petDto.getOwnerId(), petDto.getName(), true);
+		var storedPetDetails = petClinicService.getPet(petDto.getOwnerId(), petDto.getName());
 		if (storedPetDetails != null && StringUtils.hasText(storedPetDetails.getName()) && storedPetDetails.isNew()) {
 			result.rejectValue("name", "duplicate", "already exists");
 		}

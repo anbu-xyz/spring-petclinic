@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,12 +65,7 @@ public class PetEntity implements BaseEntity {
 	@NotNull
 	private Timestamp updateTimestampUtc;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "pet_id")
-	@OrderBy("visit_date ASC")
+	@Transient
 	private Set<VisitEntity> visits = new LinkedHashSet<>();
 
-	public void addVisit(VisitEntity visit) {
-		throw new IllegalArgumentException("To be deleted");
-	}
 }

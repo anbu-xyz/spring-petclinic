@@ -1,6 +1,12 @@
 package uk.anbu.spring.sample.petclinic.service.internal.entity;
 
-import jakarta.persistence.FetchType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -10,17 +16,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import uk.anbu.spring.sample.petclinic.service.internal.BaseEntity;
 
 import java.sql.Timestamp;
@@ -66,12 +61,8 @@ public class OwnerEntity implements BaseEntity {
 	@Pattern(regexp = "\\d{10}", message = "Telephone must be a 10-digit number")
 	private String telephone;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "owner_id")
-	@OrderBy("name")
-	@Column(insertable = false, updatable = false)
+	@Transient
 	private List<PetEntity> pets = new ArrayList<>();
-
 
 	public void addPet(PetEntity pet) {
 		throw new IllegalArgumentException("To be deleted");

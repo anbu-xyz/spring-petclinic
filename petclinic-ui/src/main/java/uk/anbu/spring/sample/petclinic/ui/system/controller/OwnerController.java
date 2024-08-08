@@ -1,8 +1,6 @@
 package uk.anbu.spring.sample.petclinic.ui.system.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.junit.Ignore;
 import org.springframework.data.domain.Page;
@@ -19,13 +17,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
 import uk.anbu.spring.sample.petclinic.service.PetClinicService;
+import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
-import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Ignore
@@ -34,7 +33,7 @@ public class OwnerController {
 
     private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
-    private final OwnerRepository owners;
+    private final OwnerDao owners;
 
 	private final PetClinicService petClinicService;
 
@@ -45,7 +44,7 @@ public class OwnerController {
 
 	@ModelAttribute("owner")
 	public OwnerEntity findOwner(@PathVariable(name = "ownerId", required = false) Integer ownerId) {
-		return ownerId == null ? new OwnerEntity() : this.owners.findById(ownerId).get();
+		return ownerId == null ? new OwnerEntity() : this.owners.findOwnerById(ownerId).get();
 	}
 
 	@GetMapping("/owners/new")
@@ -115,7 +114,7 @@ public class OwnerController {
 
 	@GetMapping("/owners/{ownerId}/edit")
 	public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
-		OwnerEntity owner = this.owners.findById(ownerId).get();
+		OwnerEntity owner = this.owners.findOwnerById(ownerId).get();
 		model.addAttribute(owner);
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
@@ -142,7 +141,7 @@ public class OwnerController {
 	@GetMapping("/owners/{ownerId}")
 	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
 		ModelAndView mav = new ModelAndView("owners/ownerDetails");
-		OwnerEntity owner = this.owners.findById(ownerId).get();
+		OwnerEntity owner = this.owners.findOwnerById(ownerId).get();
 		mav.addObject(owner);
 		return mav;
 	}

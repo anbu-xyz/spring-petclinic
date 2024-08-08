@@ -8,6 +8,7 @@ import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.model.Owner;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.PetRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @Slf4j
 public class OwnerDao {
 	private final OwnerRepository ownerRepository;
+	private final PetRepository petRepository;
 	private final GlobalUtcClock clock;
 
 	@Transactional
@@ -42,7 +44,9 @@ public class OwnerDao {
 
 	@Transactional
 	public Optional<OwnerEntity> findOwnerById(Integer id) {
-		return ownerRepository.findById(id);
+		var x = ownerRepository.findById(id);
+		x.ifPresent(ownerEntity -> ownerEntity.setPets(petRepository.findByOwnerId(id)));
+		return x;
 	}
 
 }

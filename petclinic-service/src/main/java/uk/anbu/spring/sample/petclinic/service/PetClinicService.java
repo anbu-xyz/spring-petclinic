@@ -72,7 +72,6 @@ public class PetClinicService {
 			.telephone(dto.getTelephone())
 			.updateTimestampUtc(clock().sqlTimestamp())
 			.eid(dto.getEid())
-			.pets(List.of())
 			.build();
 		petClinicContext.getBean(OwnerRepository.class).save(entity);
 	}
@@ -87,14 +86,7 @@ public class PetClinicService {
 				.telephone(x.getTelephone())
 				.eid(x.getEid())
 				.city(x.getCity())
-				.pets(x.getPets().stream()
-					.map(p -> PetDto.builder()
-						.ownerId(p.getOwnerId())
-						.name(p.getName())
-						.birthDate(p.getBirthDate())
-						.type(Pet.PetType.of(p.getType()))
-						.build())
-					.toList())
+				.pets(findPetsForOwnerId(x.getEid()))
 				.build())
 			.toList();
 		return new PageImpl<>(dtoList, pageable, result.getTotalPages());
@@ -161,5 +153,17 @@ public class PetClinicService {
 			.updateTimestampUtc(clock().sqlTimestamp())
 			.build();
 		petClinicContext.getBean(PetRepository.class).save(updatedPet);
+	}
+
+	public List<PetDto> findPetsForOwnerId(Integer ownerId) {
+		return petClinicContext.getBean(PetRepository.class)
+			.findByOwnerId(ownerId).stream()
+			.map(p -> PetDto.builder()
+				.ownerId(p.getOwnerId())
+				.name(p.getName())
+				.type(Pet.PetType.of(p.getType()))
+				.birthDate(p.getBirthDate())
+				.build())
+			.toList();
 	}
 }

@@ -13,14 +13,9 @@ import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 
 public interface OwnerRepository extends CrudRepository<OwnerEntity, Integer> {
 
-    @Query("SELECT DISTINCT owner FROM OwnerEntity owner left join  owner.pets WHERE owner.lastName LIKE :lastName% ")
+    @Query("SELECT DISTINCT owner FROM OwnerEntity owner left join fetch PetEntity pet ON pet.ownerId = owner.eid WHERE owner.lastName LIKE :lastName% ")
     @Transactional(readOnly = true)
     Page<OwnerEntity> findByLastName(@Param("lastName") String lastName, Pageable pageable);
-
-    @Query("SELECT owner FROM OwnerEntity owner left join fetch owner.pets WHERE owner.eid =:id")
-    @Transactional(readOnly = true)
-	@Override
-	Optional<OwnerEntity> findById(@Param("id") Integer id);
 
     @Query("SELECT owner FROM OwnerEntity owner")
     @Transactional(readOnly = true)

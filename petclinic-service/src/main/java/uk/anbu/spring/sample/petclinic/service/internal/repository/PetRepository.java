@@ -13,4 +13,8 @@ public interface PetRepository extends CrudRepository<PetEntity, Integer> {
 	@Query("SELECT p FROM PetEntity p where upper(p.name) = upper(:name) and p.ownerId =:id")
 	@Transactional(readOnly = true)
 	List<PetEntity> findByPetName(@Param("id") Integer ownerId, @Param("name") String petName);
+
+	@Query("SELECT p FROM PetEntity p where p.ownerId =:id")
+	@Transactional(readOnly = true)
+	List<PetEntity> findByOwnerId(@Param("id") Integer id);
 }

@@ -135,7 +135,30 @@ public class PetClinicService {
 		return clock().currentDate();
 	}
 
-	public PetEntity findPet(int petId) {
-		return petClinicContext.getBean(PetRepository.class).findById(petId).orElse(null);
+	public Optional<Pet> findPet(int petId) {
+		var entity = petClinicContext.getBean(PetRepository.class)
+			.findById(petId);
+		var pet = entity.map(e -> Pet.builder()
+			.eid(e.getEid())
+			.type(Pet.PetType.of(e.getType()))
+			.ownerId(e.getOwnerId())
+			.birthDate(e.getBirthDate())
+			.name(e.getName())
+			.build());
+
+		return pet;
+	}
+
+	public void updatePet(Pet pet) {
+		var entity = petClinicContext.getBean(PetRepository.class)
+			.findById(pet.eid()).orElseThrow();
+
+		var updatedPet = entity.toBuilder()
+			.birthDate(pet.birthDate())
+			.name(pet.name())
+			.ownerId(pet.ownerId())
+			.type(pet.type().toString())
+			.build();
+		petClinicContext.getBean(PetRepository.class).save(updatedPet);
 	}
 }

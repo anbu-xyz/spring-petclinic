@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
@@ -32,7 +33,7 @@ import uk.anbu.spring.sample.petclinic.model.Pet;
 @Table(name = "pets")
 @Data
 @EqualsAndHashCode(of = "name")
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class PetEntity implements BaseEntity {
@@ -51,6 +52,7 @@ public class PetEntity implements BaseEntity {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthDate;
 
+	@Setter
 	@Column(name = "type")
 	private String type;
 

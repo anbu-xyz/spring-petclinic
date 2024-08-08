@@ -1,10 +1,6 @@
 package uk.anbu.spring.sample.petclinic.ui.system.controller;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,56 +13,53 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.anbu.spring.sample.petclinic.dto.PetDto;
 import uk.anbu.spring.sample.petclinic.model.Pet;
 import uk.anbu.spring.sample.petclinic.service.PetClinicService;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
-import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/owners/{ownerId}")
 @RequiredArgsConstructor
 public class PetController {
 
-    private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
-    private final OwnerRepository owners;
+	private final OwnerRepository owners;
 
 	private final PetClinicService petClinicService;
 
-    @ModelAttribute("types")
-    public static Collection<Pet.PetType> populatePetTypes() {
-        return Arrays.stream(Pet.Type.values())
+	@ModelAttribute("types")
+	public static Collection<Pet.PetType> populatePetTypes() {
+		return Arrays.stream(Pet.Type.values())
 			.map(Pet.PetType::of)
 			.toList();
-    }
-
-    @ModelAttribute("owner")
-    public OwnerEntity findOwner(@PathVariable("ownerId") int ownerId) {
-
-        var owner = this.owners.findById(ownerId);
-        if (owner.isEmpty()) {
-    		throw new IllegalArgumentException("Owner ID not found: " + ownerId);
-		}
-		return owner.get();
 	}
 
-	@ModelAttribute("pet")
-	public PetEntity findPet(@PathVariable("ownerId") int ownerId,
-							 @PathVariable(name = "petId", required = false) Integer petId) {
-
-		if (petId == null) {
-			return new PetEntity();
-		}
+	@ModelAttribute("owner")
+	public OwnerEntity findOwner(@PathVariable("ownerId") int ownerId) {
 
 		var owner = this.owners.findById(ownerId);
 		if (owner.isEmpty()) {
 			throw new IllegalArgumentException("Owner ID not found: " + ownerId);
 		}
+		return owner.get();
+	}
+
+	@ModelAttribute("pet")
+	public Optional<Pet> findPet(@PathVariable(name = "eid", required = false) Integer petId) {
+		if (petId == null) {
+			return Optional.empty();
+		}
+
 		return petClinicService.findPet(petId);
 	}
 
@@ -90,7 +83,7 @@ public class PetController {
 			.stream()
 			.map(Pet.PetType::code)
 			.toList();
-				model.put("types", typeStrings);
+		model.put("types", typeStrings);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 
@@ -118,29 +111,19 @@ public class PetController {
 	}
 
 	@GetMapping("/pets/{petId}/edit")
-	public String initUpdateForm(OwnerEntity owner, @PathVariable("petId") int petId, ModelMap model,
-								 RedirectAttributes redirectAttributes) {
-		var pet = petClinicService.findPet(petId);
+	public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
+		var pet = petClinicService.findPet(petId).orElseThrow();
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping("/pets/{petId}/edit")
-	public String processUpdateForm(@Valid PetEntity pet, BindingResult result, OwnerEntity owner, ModelMap model,
+	public String processUpdateForm(@PathVariable("petId") int petId, @Valid Pet pet, BindingResult result, ModelMap model,
 									RedirectAttributes redirectAttributes) {
-
-		String petName = pet.getName();
-
-		// checking if the pet name already exist for the owner
-		if (StringUtils.hasText(petName)) {
-			PetEntity existingPet = owner.getPet(petName.toLowerCase(), false);
-			if (existingPet != null && existingPet.getEid() != pet.getEid()) {
-				result.rejectValue("name", "duplicate", "already exists");
-			}
-		}
+		pet = petClinicService.findPet(petId).orElseThrow();
 
 		LocalDate currentDate = LocalDate.now();
-		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
+		if (pet.birthDate() != null && pet.birthDate().isAfter(currentDate)) {
 			result.rejectValue("birthDate", "typeMismatch.birthDate");
 		}
 
@@ -149,10 +132,9 @@ public class PetController {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 
-		owner.addPet(pet);
-		this.owners.save(owner);
+		petClinicService.updatePet(pet);
+
 		redirectAttributes.addFlashAttribute("message", "Pet details has been edited");
 		return "redirect:/owners/{ownerId}";
 	}
-
 }

@@ -1,22 +1,6 @@
-/*
- * Copyright 2012-2019 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package uk.anbu.spring.sample.petclinic.ui.system.controller;
 
-import java.util.Map;
-
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,22 +10,14 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.anbu.spring.sample.petclinic.service.PetClinicService;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
-import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 
-/**
- * @author Juergen Hoeller
- * @author Ken Krebs
- * @author Arjen Poutsma
- * @author Michael Isvy
- * @author Dave Syer
- */
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 public class VisitController {
@@ -55,24 +31,17 @@ public class VisitController {
         dataBinder.setDisallowedFields("id");
     }
 
-    /**
-     * Called before each and every @RequestMapping annotated method. 2 goals: - Make sure
-     * we always have fresh data - Since we do not use the session scope, make sure that
-     * Pet object always has an id (Even though id is not part of the form fields)
-     * @param petId
-     * @return Pet
-     */
     @ModelAttribute("visit")
-    public VisitEntity loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
+    public VisitEntity loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("eid") int petId,
 										Map<String, Object> model) {
         OwnerEntity owner = this.owners.findById(ownerId).get();
 
-        PetEntity pet = petClinicService.findPet(petId);
+        var pet = petClinicService.findPet(petId);
         model.put("pet", pet);
         model.put("owner", owner);
 
         VisitEntity visit = new VisitEntity();
-        pet.addVisit(visit);
+        // pet.get().addVisit(visit); // TODO: Fix it
         return visit;
     }
 
@@ -97,5 +66,4 @@ public class VisitController {
         redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
         return "redirect:/owners/{ownerId}";
     }
-
 }

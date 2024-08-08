@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Builder
-public record Pet(Integer petId, Integer ownerId, PetType type, String name, LocalDate birthDate) {
+public record Pet(Integer eid, Integer ownerId, PetType type, String name, LocalDate birthDate) {
 	public Pet {
 		if (ownerId == null) {
 			throw new IllegalArgumentException("OwnerId cannot be null");
@@ -35,5 +35,14 @@ public record Pet(Integer petId, Integer ownerId, PetType type, String name, Loc
 				return new PetType(Type.OTHER, Optional.ofNullable(code).orElse(""));
 			}
 		}
+
+		@Override
+		public String toString() {
+			return code;
+		}
+	}
+
+	public boolean isNew() {
+		return eid == null;
 	}
 }

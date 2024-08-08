@@ -158,6 +158,7 @@ public class PetClinicService {
 			.name(pet.name())
 			.ownerId(pet.ownerId())
 			.type(pet.type().toString())
+			.updateTimestampUtc(clock().sqlTimestamp())
 			.build();
 		petClinicContext.getBean(PetRepository.class).save(updatedPet);
 	}

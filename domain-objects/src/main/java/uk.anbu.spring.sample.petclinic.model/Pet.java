@@ -1,12 +1,14 @@
 package uk.anbu.spring.sample.petclinic.model;
 
 import lombok.Builder;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
 @Builder
-public record Pet(Integer eid, Integer ownerId, PetType type, String name, LocalDate birthDate) {
+public record Pet(Integer eid, Integer ownerId, PetType type, String name, @DateTimeFormat(pattern = "yyyy-MM-dd")
+				  LocalDate birthDate) {
 	public Pet {
 		if (ownerId == null) {
 			throw new IllegalArgumentException("OwnerId cannot be null");

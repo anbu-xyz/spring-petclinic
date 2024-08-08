@@ -118,9 +118,10 @@ public class PetController {
 	}
 
 	@PostMapping("/pets/{petId}/edit")
-	public String processUpdateForm(@PathVariable("petId") int petId, @Valid Pet pet, BindingResult result, ModelMap model,
+	public String processUpdateForm(@Valid PetDto petDto, @PathVariable("petId") int petId, BindingResult result, ModelMap model,
 									RedirectAttributes redirectAttributes) {
-		pet = petClinicService.findPet(petId).orElseThrow();
+		// Big lesson: Only traditional bean classes can be bound, not records.
+		var pet = petClinicService.findPet(petId).orElseThrow();
 
 		LocalDate currentDate = LocalDate.now();
 		if (pet.birthDate() != null && pet.birthDate().isAfter(currentDate)) {
@@ -132,7 +133,7 @@ public class PetController {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 
-		petClinicService.updatePet(pet);
+		petClinicService.updatePet(new Pet(petId, petDto.getOwnerId(), petDto.getType(), petDto.getName(), petDto.getBirthDate()));
 
 		redirectAttributes.addFlashAttribute("message", "Pet details has been edited");
 		return "redirect:/owners/{ownerId}";

@@ -5,17 +5,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.PetRepository;
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.model.Pet;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.VisitRepository;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class PetDao {
 	private final PetRepository petRepository;
+	private final VisitRepository visitRepository;
 	private final GlobalUtcClock clock;
 
 	@Transactional
@@ -38,7 +43,10 @@ public class PetDao {
 	}
 
 	@Transactional
-	public Optional<PetEntity> findById(Integer id) {
-		return petRepository.findById(id);
+	public Optional<PetEntity> findById(Integer petId) {
+		var visits = visitRepository.findByPetId(petId);
+		var petEntity = petRepository.findById(petId);
+		petEntity.ifPresent(p -> p.setVisits(visits));
+		return petEntity;
 	}
 }

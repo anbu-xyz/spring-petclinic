@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -28,5 +29,6 @@ public class OwnerDto {
 	@Pattern(regexp = "\\d{10}", message = "Telephone must be a 10-digit number")
 	private String telephone;
 
-	private List<PetDto> pets;
+	@Builder.Default
+	private List<PetDto> pets = new ArrayList<>();
 }

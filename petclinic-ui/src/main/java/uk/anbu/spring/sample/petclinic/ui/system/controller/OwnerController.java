@@ -43,8 +43,8 @@ public class OwnerController {
 	}
 
 	@ModelAttribute("owner")
-	public OwnerEntity findOwner(@PathVariable(name = "ownerId", required = false) Integer ownerId) {
-		return ownerId == null ? new OwnerEntity() : this.owners.findOwnerById(ownerId).get();
+	public OwnerDto findOwner(@PathVariable(name = "ownerId", required = false) Integer ownerId) {
+		return ownerId == null ? OwnerDto.builder().build() : this.owners.findOwnerById(ownerId).get();
 	}
 
 	@GetMapping("/owners/new")
@@ -114,7 +114,7 @@ public class OwnerController {
 
 	@GetMapping("/owners/{ownerId}/edit")
 	public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
-		OwnerEntity owner = this.owners.findOwnerById(ownerId).get();
+		OwnerDto owner = this.owners.findOwnerById(ownerId).get();
 		model.addAttribute(owner);
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
@@ -141,7 +141,7 @@ public class OwnerController {
 	@GetMapping("/owners/{ownerId}")
 	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
 		ModelAndView mav = new ModelAndView("owners/ownerDetails");
-		OwnerEntity owner = this.owners.findOwnerById(ownerId).get();
+		OwnerDto owner = petClinicService.findOwnerById(ownerId);
 		mav.addObject(owner);
 		return mav;
 	}

@@ -9,6 +9,7 @@ import uk.anbu.spring.sample.petclinic.service.internal.repository.VisitReposito
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.model.Visit;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -39,11 +40,6 @@ public class VisitDao {
 	@Transactional
 	public Optional<VisitEntity> findById(Integer id) {
 		return visitRepository.findById(id);
-	}
-
-	@Transactional
-	public Optional<VisitEntity> findVisitsByPet(Integer petId) {
-		return visitRepository.findByPetId(petId);
 	}
 
 }

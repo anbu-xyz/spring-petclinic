@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import uk.anbu.spring.sample.petclinic.model.Pet;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Data
@@ -28,6 +30,9 @@ public class PetDto {
 
 	@NotNull
 	Pet.PetType type;
+
+	@Builder.Default
+	List<VisitDto> visits = new ArrayList<>();
 
 	public boolean isNew() {
 		return eid == null;

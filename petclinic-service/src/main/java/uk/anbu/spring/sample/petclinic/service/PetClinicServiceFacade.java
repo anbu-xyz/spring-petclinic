@@ -11,6 +11,7 @@ import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.lib.PropertySourceBuilder;
 import uk.anbu.spring.sample.petclinic.model.Pet;
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
+import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
@@ -79,20 +80,8 @@ public class PetClinicServiceFacade {
 		petClinicContext.getBean(OwnerRepository.class).save(entity);
 	}
 
-	public Page<OwnerDto> findOwnerByLastName(String lastname, Pageable pageable) {
-		var result = petClinicContext.getBean(OwnerRepository.class).findByLastName(lastname, pageable);
-		var dtoList = result.getContent().stream()
-			.map(x -> OwnerDto.builder()
-				.firstName(x.getFirstName())
-				.lastName(x.getLastName())
-				.address(x.getAddress())
-				.telephone(x.getTelephone())
-				.eid(x.getEid())
-				.city(x.getCity())
-				.pets(findPetsForOwnerId(x.getEid()))
-				.build())
-			.toList();
-		return new PageImpl<>(dtoList, pageable, result.getTotalPages());
+	public OwnerDto findOwnerById(Integer ownerId) {
+		return petClinicContext.getBean(OwnerDao.class).findOwnerById(ownerId).orElse(null);
 	}
 
 	public PetDto getPet(Integer ownerEid, String petName) {
@@ -165,6 +154,15 @@ public class PetClinicServiceFacade {
 				.name(p.getName())
 				.type(Pet.PetType.of(p.getType()))
 				.birthDate(p.getBirthDate())
+				.visits(p.getVisits().stream()
+					.map(v -> VisitDto.builder()
+						.petId(p.getEid())
+						.vetId(v.getVetId())
+						.eid(v.getEid())
+						.description(v.getDescription())
+						.date(v.getDate())
+						.build())
+					.toList())
 				.build())
 			.toList();
 	}
@@ -180,5 +178,9 @@ public class PetClinicServiceFacade {
 			.build();
 		petClinicContext.getBean(VisitRepository.class)
 			.save(entity);
+	}
+
+	public Page<OwnerDto> findOwnerByLastName(String lastname, Pageable pageable) {
+		return petClinicContext.getBean(OwnerDao.class).findOwnerByLastName(lastname, pageable);
 	}
 }

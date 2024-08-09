@@ -28,11 +28,11 @@ class DaoSpecification extends Specification {
     @Shared
     PetClinicServiceFacade service
     @Shared
-    OwnerEntity testOwner
+    Owner testOwner
     @Shared
-    PetEntity testPet
+    Pet testPet
     @Shared
-    VetEntity testVet
+    Vet testVet
 
     def setupSpec() {
         def config = PetClinicServiceContext.Config.builder()

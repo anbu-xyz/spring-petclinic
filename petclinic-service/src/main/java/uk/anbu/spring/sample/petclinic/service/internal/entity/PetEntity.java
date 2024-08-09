@@ -2,7 +2,9 @@ package uk.anbu.spring.sample.petclinic.service.internal.entity;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Transient;
@@ -66,6 +68,6 @@ public class PetEntity implements BaseEntity {
 	private Timestamp updateTimestampUtc;
 
 	@Transient
-	private Set<VisitEntity> visits = new LinkedHashSet<>();
+	private List<VisitEntity> visits = new ArrayList<>();
 
 }

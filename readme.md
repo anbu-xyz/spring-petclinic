@@ -6,15 +6,36 @@ The purpose of the project is to use this as a template for my new startup proje
 
 ## Layered architecture
 
-+----------------------------------------------------------------------------------------------------+
-|  Controller - Manages endpoints redirects to view after updating the model - serves domain objects |
-+----------------------------------------------------------------------------------------------------+
-|  DAO - Data access layer containing the business logic - serves DTO                                |
-+----------------------------------------------------------------------------------------------------+
-|  Repository - Repositories that fire SQL against database - serves Entity Objects                  |
-+----------------------------------------------------------------------------------------------------+
-|  Database                                                                                          |
-+----------------------------------------------------------------------------------------------------+
+```
+          +----------------------------------------------------+
+          | Endpoint - deals with http/REST, error handling    |
+          |                         etc                        |
+          +----------------------------------------------------+
+                               |
+                               v
+          +----------------------------------------------------+
+          | Controller - deals with non-business concerns      |
+          | like model to DTO translation, security, session   |
+          |                     management                     |
+          +----------------------------------------------------+
+                               |
+                               v
+          +----------------------------------------------------+
+          | Model - contains business logic - deals with       |
+          |             domain level objects                   |
+          +----------------------------------------------------+
+                               |
+                               v
+          +----------------------------------------------------+
+          | Repository - Repositories that fire SQL against    |
+          |         database - serves Entity Objects           |
+          +----------------------------------------------------+
+                               |
+                               v
+          +----------------------------------------------------+
+          |                Database                            |
+          +----------------------------------------------------+
+```
 
 ## License
 

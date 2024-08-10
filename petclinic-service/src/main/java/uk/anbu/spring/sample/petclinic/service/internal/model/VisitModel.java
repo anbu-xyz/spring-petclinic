@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service.internal.dao;
+package uk.anbu.spring.sample.petclinic.service.internal.model;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,13 +9,12 @@ import uk.anbu.spring.sample.petclinic.service.internal.repository.VisitReposito
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.model.Visit;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class VisitDao {
+public class VisitModel {
 	private final VisitRepository visitRepository;
 	private final GlobalUtcClock clock;
 

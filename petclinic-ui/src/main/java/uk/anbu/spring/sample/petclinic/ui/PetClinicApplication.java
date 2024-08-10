@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ImportRuntimeHints;
 import uk.anbu.spring.sample.petclinic.service.PetClinicServiceFacade;
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
 import uk.anbu.spring.sample.petclinic.lib.DefaultGlobalUtcClock;
-import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao;
+import uk.anbu.spring.sample.petclinic.service.internal.model.OwnerModel;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.VetRepository;
 
@@ -42,8 +42,8 @@ public class PetClinicApplication {
 	}
 
 	@Bean
-	OwnerDao ownerDao(PetClinicServiceFacade petClinicService) {
+	OwnerModel ownerDao(PetClinicServiceFacade petClinicService) {
 		// TODO: Remove this
-		return petClinicService.getBean(OwnerDao.class);
+		return petClinicService.getBean(OwnerModel.class);
 	}
 }

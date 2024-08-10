@@ -4,13 +4,10 @@ import spock.lang.Shared
 import spock.lang.Specification
 import uk.anbu.spring.sample.petclinic.service.PetClinicServiceFacade
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext
-import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao
-import uk.anbu.spring.sample.petclinic.service.internal.dao.PetDao
-import uk.anbu.spring.sample.petclinic.service.internal.dao.VetDao
-import uk.anbu.spring.sample.petclinic.service.internal.dao.VisitDao
-import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity
-import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity
-import uk.anbu.spring.sample.petclinic.service.internal.entity.VetEntity
+import uk.anbu.spring.sample.petclinic.service.internal.model.OwnerModel
+import uk.anbu.spring.sample.petclinic.service.internal.model.PetModel
+import uk.anbu.spring.sample.petclinic.service.internal.model.VetModel
+import uk.anbu.spring.sample.petclinic.service.internal.model.VisitModel
 import uk.anbu.spring.sample.petclinic.lib.ResettableGlobalUtcClock
 import uk.anbu.spring.sample.petclinic.lib.db.DataSourceWrapper
 import uk.anbu.spring.sample.petclinic.model.Owner
@@ -46,7 +43,7 @@ class DaoSpecification extends Specification {
 
     def "Able to save and retrieve owner"() {
         given:
-        def dao = service.getBean(OwnerDao)
+        def dao = service.getBean(OwnerModel)
         def owner = Owner.builder()
                 .firstName("first")
                 .lastName("last")
@@ -68,7 +65,7 @@ class DaoSpecification extends Specification {
 
     def "Able to save and retrieve pet"() {
         given:
-        def dao = service.getBean(PetDao)
+        def dao = service.getBean(PetModel)
         println testOwner
         def pet = Pet.builder()
                 .ownerId(testOwner.eid)
@@ -89,7 +86,7 @@ class DaoSpecification extends Specification {
 
     def "Able to save and retrieve vet"() {
         given:
-        def dao = service.getBean(VetDao)
+        def dao = service.getBean(VetModel)
         def vet = Vet.builder()
                 .firstName("vet first")
                 .lastName("vet last")
@@ -109,7 +106,7 @@ class DaoSpecification extends Specification {
 
     def "Able to save and retrieve visits"() {
         given:
-        def dao = service.getBean(VisitDao)
+        def dao = service.getBean(VisitModel)
         def visit = Visit.builder()
                 .vetId(testVet.eid)
                 .petId(testPet.eid)

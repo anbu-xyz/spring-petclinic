@@ -2,7 +2,6 @@ package uk.anbu.spring.sample.petclinic.service;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
 import uk.anbu.spring.sample.petclinic.dto.PetDto;
@@ -11,7 +10,7 @@ import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.lib.PropertySourceBuilder;
 import uk.anbu.spring.sample.petclinic.model.Pet;
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
-import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao;
+import uk.anbu.spring.sample.petclinic.service.internal.model.OwnerModel;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
@@ -81,7 +80,7 @@ public class PetClinicServiceFacade {
 	}
 
 	public OwnerDto findOwnerById(Integer ownerId) {
-		return petClinicContext.getBean(OwnerDao.class).findOwnerById(ownerId).orElse(null);
+		return petClinicContext.getBean(OwnerModel.class).findOwnerById(ownerId).orElse(null);
 	}
 
 	public PetDto getPet(Integer ownerEid, String petName) {
@@ -181,6 +180,6 @@ public class PetClinicServiceFacade {
 	}
 
 	public Page<OwnerDto> findOwnerByLastName(String lastname, Pageable pageable) {
-		return petClinicContext.getBean(OwnerDao.class).findOwnerByLastName(lastname, pageable);
+		return petClinicContext.getBean(OwnerModel.class).findOwnerByLastName(lastname, pageable);
 	}
 }

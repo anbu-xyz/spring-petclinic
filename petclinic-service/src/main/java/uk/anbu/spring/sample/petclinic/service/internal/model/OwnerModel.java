@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service.internal.dao;
+package uk.anbu.spring.sample.petclinic.service.internal.model;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class OwnerDao {
+public class OwnerModel {
 	private final OwnerRepository ownerRepository;
 	private final PetRepository petRepository;
 	private final VisitRepository visitRepository;
@@ -54,7 +54,7 @@ public class OwnerDao {
 	public Page<OwnerDto> findOwnerByLastName(String lastname, Pageable pageable) {
 		var result = ownerRepository.findByLastName(lastname, pageable);
 		var dtoList = result.getContent().stream()
-			.map(OwnerDao::toDto)
+			.map(OwnerModel::toDto)
 			.toList();
 		return new PageImpl<>(dtoList, pageable, result.getTotalPages());
 	}
@@ -95,7 +95,7 @@ public class OwnerDao {
 			petEntities.forEach(pet -> pet.setVisits(visitRepository.findByPetId(pet.getEid())))
 		);
 
-		return owner.map(OwnerDao::toDto);
+		return owner.map(OwnerModel::toDto);
 	}
 
 }

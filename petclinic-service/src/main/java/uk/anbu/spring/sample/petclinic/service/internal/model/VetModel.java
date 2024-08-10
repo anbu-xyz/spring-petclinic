@@ -1,4 +1,4 @@
-package uk.anbu.spring.sample.petclinic.service.internal.dao;
+package uk.anbu.spring.sample.petclinic.service.internal.model;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class VetDao {
+public class VetModel {
 	private final VetRepository vetRepository;
 	private final GlobalUtcClock clock;
 

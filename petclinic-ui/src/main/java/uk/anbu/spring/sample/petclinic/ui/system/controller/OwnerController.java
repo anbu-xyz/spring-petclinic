@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
 import uk.anbu.spring.sample.petclinic.service.PetClinicServiceFacade;
-import uk.anbu.spring.sample.petclinic.service.internal.dao.OwnerDao;
+import uk.anbu.spring.sample.petclinic.service.internal.model.OwnerModel;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class OwnerController {
 
     private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 
-    private final OwnerDao owners;
+    private final OwnerModel owners;
 
 	private final PetClinicServiceFacade petClinicService;
 

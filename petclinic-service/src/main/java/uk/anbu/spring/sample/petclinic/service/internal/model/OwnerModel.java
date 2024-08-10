@@ -78,7 +78,7 @@ public class OwnerModel {
 						.petId(v.getPetId())
 						.vetId(v.getVetId())
 						.description(v.getDescription())
-						.date(v.getDate())
+						.visitDate(v.getVisitDate())
 						.eid(v.getEid())
 						.build()).toList())
 					.build())

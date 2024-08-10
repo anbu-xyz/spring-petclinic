@@ -5,23 +5,28 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
 import uk.anbu.spring.sample.petclinic.dto.PetDto;
+import uk.anbu.spring.sample.petclinic.dto.VetDto;
 import uk.anbu.spring.sample.petclinic.dto.VisitDto;
 import uk.anbu.spring.sample.petclinic.lib.GlobalUtcClock;
 import uk.anbu.spring.sample.petclinic.lib.PropertySourceBuilder;
 import uk.anbu.spring.sample.petclinic.model.Pet;
+import uk.anbu.spring.sample.petclinic.model.Vet;
 import uk.anbu.spring.sample.petclinic.service.internal.PetClinicServiceContext;
+import uk.anbu.spring.sample.petclinic.service.internal.entity.VetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.model.OwnerModel;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.PetEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.VisitEntity;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.OwnerRepository;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.PetRepository;
+import uk.anbu.spring.sample.petclinic.service.internal.repository.VetRepository;
 import uk.anbu.spring.sample.petclinic.service.internal.repository.VisitRepository;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PetClinicServiceFacade {
 	private final AnnotationConfigApplicationContext petClinicContext;
@@ -79,8 +84,8 @@ public class PetClinicServiceFacade {
 		petClinicContext.getBean(OwnerRepository.class).save(entity);
 	}
 
-	public OwnerDto findOwnerById(Integer ownerId) {
-		return petClinicContext.getBean(OwnerModel.class).findOwnerById(ownerId).orElse(null);
+	public Optional<OwnerDto> findOwnerById(Integer ownerId) {
+		return petClinicContext.getBean(OwnerModel.class).findOwnerById(ownerId);
 	}
 
 	public PetDto getPet(Integer ownerEid, String petName) {
@@ -113,14 +118,26 @@ public class PetClinicServiceFacade {
 		return savedEntity.getEid();
 	}
 
+	public Integer registerVisit(VisitDto dto) {
+		var entity = VisitEntity.builder()
+			.petId(dto.getPetId())
+			.vetId(dto.getVetId())
+			.visitDate(dto.getVisitDate())
+			.description(dto.getDescription())
+			.updateTimestampUtc(clock().sqlTimestamp())
+			.build();
+		var savedEntity = petClinicContext.getBean(VisitRepository.class).save(entity);
+		return savedEntity.getEid();
+	}
+
 	public LocalDate currentDate() {
 		return clock().currentDate();
 	}
 
-	public Optional<Pet> findPet(int petId) {
+	public Optional<PetDto> findPetById(int petId) {
 		var entity = petClinicContext.getBean(PetRepository.class)
 			.findById(petId);
-		var pet = entity.map(e -> Pet.builder()
+		var pet = entity.map(e -> PetDto.builder()
 			.eid(e.getEid())
 			.type(Pet.PetType.of(e.getType()))
 			.ownerId(e.getOwnerId())
@@ -129,6 +146,21 @@ public class PetClinicServiceFacade {
 			.build());
 
 		return pet;
+	}
+
+	Optional<VisitDto> findVisitById(Integer visitId) {
+		var entity = petClinicContext.getBean(VisitRepository.class)
+			.findById(visitId);
+		var visit = entity.map(e -> VisitDto.builder()
+			.eid(e.getEid())
+			.petId(e.getPetId())
+			.vetId(e.getVetId())
+			.visitDate(e.getVisitDate())
+			.description(e.getDescription())
+			.build()
+		);
+
+		return visit;
 	}
 
 	public void updatePet(Pet pet) {
@@ -159,7 +191,7 @@ public class PetClinicServiceFacade {
 						.vetId(v.getVetId())
 						.eid(v.getEid())
 						.description(v.getDescription())
-						.date(v.getDate())
+						.visitDate(v.getVisitDate())
 						.build())
 					.toList())
 				.build())
@@ -170,7 +202,7 @@ public class PetClinicServiceFacade {
 		var entity = VisitEntity.builder()
 			.petId(dto.getPetId())
 			.vetId(dto.getVetId())
-			.date(dto.getDate())
+			.visitDate(dto.getVisitDate())
 			.eid(dto.getEid())
 			.updateTimestampUtc(clock().sqlTimestamp())
 			.description(dto.getDescription())
@@ -182,4 +214,33 @@ public class PetClinicServiceFacade {
 	public Page<OwnerDto> findOwnerByLastName(String lastname, Pageable pageable) {
 		return petClinicContext.getBean(OwnerModel.class).findOwnerByLastName(lastname, pageable);
 	}
+
+	public Integer registerVet(VetDto dto) {
+		var specialities = dto.getSpecialities().stream().map(Vet.SpecialtyType::toString).collect(Collectors.toSet());
+		var entity = VetEntity.builder()
+			.registrationId(dto.getRegistrationId())
+			.firstName(dto.getFirstName())
+			.lastName(dto.getLastName())
+			.updateTimestampUtc(clock().sqlTimestamp())
+			.specialties(specialities)
+			.build();
+		var savedVet = petClinicContext.getBean(VetRepository.class)
+			.save(entity);
+		return savedVet.getEid();
+	}
+
+	public Object findVetById(Integer vetId) {
+		Optional<VetEntity> entity = petClinicContext.getBean(VetRepository.class)
+			.findById(vetId);
+		var vet = entity.map(e -> VetDto.builder()
+			.eid(e.getEid())
+			.specialities(e.getSpecialties().stream().map(Vet.SpecialtyType::of).collect(Collectors.toSet()))
+			.registrationId(e.getRegistrationId())
+			.firstName(e.getFirstName())
+			.lastName(e.getLastName())
+			.build());
+
+		return vet;
+	}
+
 }

@@ -141,7 +141,7 @@ public class OwnerController {
 	@GetMapping("/owners/{ownerId}")
 	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
 		ModelAndView mav = new ModelAndView("owners/ownerDetails");
-		OwnerDto owner = petClinicService.findOwnerById(ownerId);
+		OwnerDto owner = petClinicService.findOwnerById(ownerId).get();
 		mav.addObject(owner);
 		return mav;
 	}

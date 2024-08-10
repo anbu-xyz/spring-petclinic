@@ -36,7 +36,7 @@ public class VisitController {
     public VisitEntity loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
 										Map<String, Object> model) {
         var owner = this.owners.findById(ownerId).get();
-        var pet = petClinicFacade.findPet(petId).get();
+        var pet = petClinicFacade.findPetById(petId).get();
 
         model.put("pet", pet);
         model.put("owner", owner);

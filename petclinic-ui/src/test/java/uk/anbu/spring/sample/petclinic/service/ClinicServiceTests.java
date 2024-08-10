@@ -184,7 +184,7 @@ class ClinicServiceTests {
 		assertThat(visits) //
 			.hasSize(2) //
 			.element(0)
-			.extracting(VisitEntity::getDate)
+			.extracting(VisitEntity::getVisitDate)
 			.isNotNull();
 	}
 

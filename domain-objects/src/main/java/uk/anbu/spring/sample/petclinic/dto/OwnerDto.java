@@ -31,4 +31,9 @@ public class OwnerDto {
 
 	@Builder.Default
 	private List<PetDto> pets = new ArrayList<>();
+
+	public boolean isNew() {
+		// TODO: is this needed?
+		return eid == null;
+	}
 }

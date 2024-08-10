@@ -35,6 +35,7 @@ public class PetDto {
 	List<VisitDto> visits = new ArrayList<>();
 
 	public boolean isNew() {
+		// TODO: is this needed?
 		return eid == null;
 	}
 }

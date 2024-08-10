@@ -41,7 +41,7 @@ public class VisitEntity implements BaseEntity {
     @Column(name = "visit_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull
-    private LocalDate date;
+    private LocalDate visitDate;
 
     @NotBlank
 	@Column(name = "description")

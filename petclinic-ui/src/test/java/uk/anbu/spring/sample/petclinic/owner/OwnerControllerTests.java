@@ -104,7 +104,7 @@ class OwnerControllerTests {
 
         given(this.owners.findById(TEST_OWNER_ID).get()).willReturn(george);
         VisitEntity visit = new VisitEntity();
-        visit.setDate(LocalDate.now());
+        visit.setVisitDate(LocalDate.now());
 
         // george.getPet("Max").getVisits().add(visit); // TODO: fix this
         Assertions.assertTrue(false);

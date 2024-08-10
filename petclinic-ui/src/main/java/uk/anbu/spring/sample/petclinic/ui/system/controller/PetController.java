@@ -35,7 +35,7 @@ public class PetController {
 
 	private final OwnerRepository owners;
 
-	private final PetClinicServiceFacade petClinicService;
+	private final PetClinicServiceFacade facade;
 
 	@ModelAttribute("types")
 	public static Collection<Pet.PetType> populatePetTypes() {
@@ -55,12 +55,12 @@ public class PetController {
 	}
 
 	@ModelAttribute("pet")
-	public Optional<Pet> findPet(@PathVariable(name = "eid", required = false) Integer petId) {
+	public Optional<PetDto> findPet(@PathVariable(name = "eid", required = false) Integer petId) {
 		if (petId == null) {
 			return Optional.empty();
 		}
 
-		return petClinicService.findPet(petId);
+		return facade.findPetById(petId);
 	}
 
 	@InitBinder("owner")
@@ -90,12 +90,12 @@ public class PetController {
 	@PostMapping("/pets/new")
 	public String processCreationForm(OwnerEntity owner, @Valid PetDto petDto, BindingResult result, ModelMap model,
 									  RedirectAttributes redirectAttributes) {
-		var storedPetDetails = petClinicService.getPet(petDto.getOwnerId(), petDto.getName());
+		var storedPetDetails = facade.getPet(petDto.getOwnerId(), petDto.getName());
 		if (storedPetDetails != null && StringUtils.hasText(storedPetDetails.getName()) && storedPetDetails.isNew()) {
 			result.rejectValue("name", "duplicate", "already exists");
 		}
 
-		LocalDate currentDate = petClinicService.currentDate();
+		LocalDate currentDate = facade.currentDate();
 		if (petDto.getBirthDate() != null && petDto.getBirthDate().isAfter(currentDate)) {
 			result.rejectValue("birthDate", "typeMismatch.birthDate");
 		}
@@ -105,14 +105,14 @@ public class PetController {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 
-		petClinicService.registerNewPet(petDto);
+		facade.registerNewPet(petDto);
 		redirectAttributes.addFlashAttribute("message", "New Pet has been Added");
 		return "redirect:/owners/{ownerId}";
 	}
 
 	@GetMapping("/pets/{petId}/edit")
 	public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
-		var pet = petClinicService.findPet(petId).orElseThrow();
+		var pet = facade.findPetById(petId).orElseThrow();
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
@@ -121,10 +121,10 @@ public class PetController {
 	public String processUpdateForm(@Valid PetDto petDto, @PathVariable("petId") int petId, BindingResult result, ModelMap model,
 									RedirectAttributes redirectAttributes) {
 		// Big lesson: Only traditional bean classes can be bound, not records.
-		var pet = petClinicService.findPet(petId).orElseThrow();
+		var pet = facade.findPetById(petId).orElseThrow();
 
 		LocalDate currentDate = LocalDate.now();
-		if (pet.birthDate() != null && pet.birthDate().isAfter(currentDate)) {
+		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
 			result.rejectValue("birthDate", "typeMismatch.birthDate");
 		}
 
@@ -133,7 +133,7 @@ public class PetController {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 
-		petClinicService.updatePet(new Pet(petId, petDto.getOwnerId(), petDto.getType(), petDto.getName(), petDto.getBirthDate()));
+		facade.updatePet(new Pet(petId, petDto.getOwnerId(), petDto.getType(), petDto.getName(), petDto.getBirthDate()));
 
 		redirectAttributes.addFlashAttribute("message", "Pet details has been edited");
 		return "redirect:/owners/{ownerId}";

@@ -25,7 +25,7 @@ public class VisitModel {
 		var vetToSave = VisitEntity.builder()
 			.vetId(newVisit.vetId())
 			.petId(newVisit.petId())
-			.date(newVisit.visitDate())
+			.visitDate(newVisit.visitDate())
 			.description(newVisit.description())
 			.updateTimestampUtc(currentTime)
 			.build();

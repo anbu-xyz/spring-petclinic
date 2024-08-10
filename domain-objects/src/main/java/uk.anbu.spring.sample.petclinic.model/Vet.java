@@ -28,5 +28,10 @@ public record Vet(Integer vetId, String vetRegistrationId, String firstName, Str
 				return new SpecialtyType(Type.OTHER, Optional.ofNullable(code).orElse(""));
 			}
 		}
+
+		@Override
+		public String toString() {
+			return code;
+		}
 	}
 }

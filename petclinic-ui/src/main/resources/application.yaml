@@ -31,3 +31,10 @@ logging.level.org.springframework: INFO
 
 # Maximum time static resources should be cached
 spring.web.resources.cache.cachecontrol.max-age: 12h
+
+# jte
+gg.jte.templateLocation: petclinic-ui/src/main/jte
+gg.jte.templateSuffix: .jte
+
+gg.jte.developmentMode: true
+# gg.jte.usePrecompiledTemplates: true

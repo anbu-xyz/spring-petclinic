@@ -27,7 +27,7 @@ public class VetModel {
 		var vetToSave = VetEntity.builder()
 			.firstName(newVet.firstName())
 			.lastName(newVet.lastName())
-			.registrationId(newVet.vetRegistrationId())
+			.licenseNumber(newVet.licenseNumber())
 			.specialties(specialties)
 			.updateTimestampUtc(currentTime)
 			.build();

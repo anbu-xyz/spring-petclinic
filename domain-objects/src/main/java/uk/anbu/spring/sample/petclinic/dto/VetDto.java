@@ -25,7 +25,13 @@ public class VetDto {
 	String lastName;
 
 	@NotBlank
-	String registrationId;
+	String licenseNumber;
+
+	@NotBlank
+	String email;
+
+	@NotBlank
+	String phone;
 
 	@NotNull
 	@NotEmpty

@@ -20,8 +20,14 @@ databaseChangeLog:
                 name: last_name
                 type: varchar(30)
             - column:
-                name: REGISTRATION_ID
+                name: license_number
                 type: varchar(30)
+            - column:
+                name: phone
+                type: varchar(20)
+            - column:
+                name: email
+                type: varchar(100)
             - column:
                 name: update_timestamp_utc
                 type: timestamp

@@ -218,9 +218,11 @@ public class PetClinicServiceFacade {
 	public Integer registerVet(VetDto dto) {
 		var specialities = dto.getSpecialities().stream().map(Vet.SpecialtyType::toString).collect(Collectors.toSet());
 		var entity = VetEntity.builder()
-			.registrationId(dto.getRegistrationId())
+			.licenseNumber(dto.getLicenseNumber())
 			.firstName(dto.getFirstName())
 			.lastName(dto.getLastName())
+			.email(dto.getEmail())
+			.phone(dto.getPhone())
 			.updateTimestampUtc(clock().sqlTimestamp())
 			.specialties(specialities)
 			.build();
@@ -235,7 +237,7 @@ public class PetClinicServiceFacade {
 		var vet = entity.map(e -> VetDto.builder()
 			.eid(e.getEid())
 			.specialities(e.getSpecialties().stream().map(Vet.SpecialtyType::of).collect(Collectors.toSet()))
-			.registrationId(e.getRegistrationId())
+			.licenseNumber(e.getLicenseNumber())
 			.firstName(e.getFirstName())
 			.lastName(e.getLastName())
 			.build());
@@ -243,4 +245,17 @@ public class PetClinicServiceFacade {
 		return vet;
 	}
 
+	public Object registerNewVet(VetDto vetDto) {
+		VetEntity entity = petClinicContext.getBean(VetRepository.class)
+			.save(VetEntity.builder()
+				.licenseNumber(vetDto.getLicenseNumber())
+				.firstName(vetDto.getFirstName())
+				.lastName(vetDto.getLastName())
+				.phone(vetDto.getPhone())
+				.email(vetDto.getEmail())
+				.updateTimestampUtc(clock().sqlTimestamp())
+				.specialties(vetDto.getSpecialities().stream().map(Vet.SpecialtyType::toString).collect(Collectors.toSet()))
+				.build());
+		return entity.getEid();
+	}
 }

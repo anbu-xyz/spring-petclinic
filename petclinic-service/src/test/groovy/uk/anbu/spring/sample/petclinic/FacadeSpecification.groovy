@@ -17,8 +17,8 @@ import uk.anbu.spring.sample.petclinic.testutil.DataSourceUtil
 import java.time.LocalDate
 import java.time.LocalTime
 
-import static uk.anbu.spring.sample.petclinic.model.Vet.Type.RADIOLOGY
-import static uk.anbu.spring.sample.petclinic.model.Vet.Type.SURGERY
+import static uk.anbu.spring.sample.petclinic.model.Vet.Type.RADIOLOGIST
+import static uk.anbu.spring.sample.petclinic.model.Vet.Type.SURGEON
 
 class FacadeSpecification extends Specification {
     @Shared
@@ -84,8 +84,10 @@ class FacadeSpecification extends Specification {
         def vet = VetDto.builder()
                 .firstName("vet first")
                 .lastName("vet last")
-                .registrationId("RN-101")
-                .specialities([RADIOLOGY, SURGERY].collect{Vet.SpecialtyType.of(it)}.toSet())
+                .licenseNumber("RN-101")
+                .email("vet@email.com")
+                .phone("1234567890")
+                .specialities([RADIOLOGIST, SURGEON].collect{Vet.SpecialtyType.of(it)}.toSet())
                 .build()
         def vetId = facade.registerVet(vet)
 

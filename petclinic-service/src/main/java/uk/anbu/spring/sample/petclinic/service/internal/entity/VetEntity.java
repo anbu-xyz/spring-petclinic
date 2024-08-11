@@ -41,9 +41,17 @@ public class VetEntity implements BaseEntity {
 	@NotBlank
 	private String lastName;
 
-	@Column(name = "registration_id")
+	@Column(name = "email")
 	@NotBlank
-	private String registrationId;
+	private String email;
+
+	@Column(name = "phone")
+	@NotBlank
+	private String phone;
+
+	@Column(name = "license_number")
+	@NotBlank
+	private String licenseNumber;
 
 	@Column(name = "update_timestamp_utc")
 	@NotNull

@@ -6,11 +6,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Builder
-public record Vet(Integer vetId, String vetRegistrationId, String firstName, String lastName,
-				  List<SpecialtyType> specialty) {
+public record Vet(Integer vetId, String licenseNumber, String firstName, String lastName, String email,
+				  String phone, List<SpecialtyType> specialty) {
 	public enum Type {
-		RADIOLOGY,
-		SURGERY,
+		GENERAL,
+		SURGEON,
+		DENTIST,
+		PSYCHIATRIST,
+		IMMUNOLOGIST,
+		PHARMACIST,
+		NUTRITIONIST,
+		RADIOLOGIST,
 		DENTISTRY,
 		OTHER
 	}

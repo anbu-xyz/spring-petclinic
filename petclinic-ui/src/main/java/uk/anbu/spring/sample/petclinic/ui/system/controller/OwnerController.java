@@ -1,11 +1,17 @@
 package uk.anbu.spring.sample.petclinic.ui.system.controller;
 
+import gg.jte.TemplateEngine;
+import gg.jte.TemplateOutput;
+import gg.jte.output.StringOutput;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.junit.Ignore;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +28,7 @@ import uk.anbu.spring.sample.petclinic.dto.OwnerDto;
 import uk.anbu.spring.sample.petclinic.service.PetClinicServiceFacade;
 import uk.anbu.spring.sample.petclinic.service.internal.model.OwnerModel;
 import uk.anbu.spring.sample.petclinic.service.internal.entity.OwnerEntity;
+import uk.anbu.spring.sample.petclinic.ui.system.WelcomeController;
 
 import java.util.List;
 import java.util.Map;
@@ -31,11 +38,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class OwnerController {
 
-    private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
+	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "createOrUpdateOwnerForm.jte";
 
-    private final OwnerModel owners;
+	private final OwnerModel owners;
 
 	private final PetClinicServiceFacade petClinicService;
+
+	private final TemplateEngine templateEngine;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -67,13 +76,13 @@ public class OwnerController {
 	}
 
 	@GetMapping("/owners/find")
-	public String initFindForm() {
-		return "owners/findOwners";
+	public ResponseEntity<String> initFindForm() {
+		return WelcomeController.jteTemplate(templateEngine, "owners/findOwners", Map.of());
 	}
 
 	@GetMapping("/owners")
-	public String processFindForm(@RequestParam(defaultValue = "1") int page, OwnerDto owner, BindingResult result,
-								  Model model) {
+	public ResponseEntity<Object> processFindForm(@RequestParam(defaultValue = "1") int page, OwnerDto owner, BindingResult result,
+												  Model model) {
 		// allow parameterless GET request for /owners to return all records
 		if (owner.getLastName() == null) {
 			owner.setLastName(""); // empty string signifies broadest possible search
@@ -84,26 +93,38 @@ public class OwnerController {
 		if (ownersResults.isEmpty()) {
 			// no owners found
 			result.rejectValue("lastName", "notFound", "not found");
-			return "owners/findOwners";
+			return ResponseEntity.status(HttpStatus.FOUND)
+				.header(HttpHeaders.LOCATION, "/owners/findOwners")
+				.build();
 		}
 
 		if (ownersResults.getTotalElements() == 1) {
 			// 1 owner found
 			owner = ownersResults.iterator().next();
-			return "redirect:/owners/" + owner.getEid();
+
+			return ResponseEntity.status(HttpStatus.FOUND)
+				.header(HttpHeaders.LOCATION, "/owners/" + owner.getEid())
+				.build();
 		}
 
 		// multiple owners found
 		return addPaginationModel(page, model, ownersResults);
 	}
 
-	private String addPaginationModel(int page, Model model, Page<OwnerDto> paginated) {
+	private ResponseEntity<Object> addPaginationModel(int page, Model model, Page<OwnerDto> paginated) {
 		List<OwnerDto> listOwners = paginated.getContent();
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", paginated.getTotalPages());
 		model.addAttribute("totalItems", paginated.getTotalElements());
 		model.addAttribute("listOwners", listOwners);
-		return "owners/ownersList";
+
+
+		TemplateOutput output = new StringOutput();
+		templateEngine.render("owners/ownersList.jte", model, output);
+
+		return ResponseEntity.ok()
+			.contentType(org.springframework.http.MediaType.TEXT_HTML)
+			.body(output.toString());
 	}
 
 	private Page<OwnerDto> findPaginatedForOwnersLastName(int page, String lastname) {
@@ -135,12 +156,13 @@ public class OwnerController {
 
 	/**
 	 * Custom handler for displaying an owner.
+	 *
 	 * @param ownerId the ID of the owner to display
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/owners/{ownerId}")
 	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
-		ModelAndView mav = new ModelAndView("owners/ownerDetails");
+		ModelAndView mav = new ModelAndView("ownerDetails.jte");
 		OwnerDto owner = petClinicService.findOwnerById(ownerId).get();
 		mav.addObject(owner);
 		return mav;

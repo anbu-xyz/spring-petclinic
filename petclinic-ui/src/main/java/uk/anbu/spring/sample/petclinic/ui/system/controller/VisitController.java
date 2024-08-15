@@ -52,7 +52,7 @@ public class VisitController {
     // called
     @GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
     public String initNewVisitForm() {
-        return "pets/createOrUpdateVisitForm";
+        return "createOrUpdateVisitForm.jte";
     }
 
     // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
@@ -61,7 +61,7 @@ public class VisitController {
     public String processNewVisitForm(@PathVariable int ownerId, @PathVariable int petId, @Valid VisitDto visit,
 									  BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "pets/createOrUpdateVisitForm";
+            return "createOrUpdateVisitForm.jte";
         }
 
 		petClinicFacade.addVisit(visit);

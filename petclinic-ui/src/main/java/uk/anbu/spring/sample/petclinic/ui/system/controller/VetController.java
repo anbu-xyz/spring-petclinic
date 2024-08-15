@@ -43,7 +43,7 @@ public class VetController {
 
 	@GetMapping("/registerNewVet.html")
 	public String registerNewVet(Model model) {
-		return "vets/registerNewVet";
+		return "registerNewVet.jte";
 	}
 
 	@PostMapping("/registerNewVet.html")
@@ -51,7 +51,7 @@ public class VetController {
 								 RedirectAttributes redirectAttributes, Model model) {
 		if (result.hasErrors()) {
 			log.debug("There was an error in creating the vet. Errors: {}", result.getAllErrors());
-			return "vets/registerNewVet";
+			return "registerNewVet.jte";
 		}
 
 		var id = facade.registerNewVet(vetDto);

@@ -7,8 +7,6 @@ build/*
 .project
 .factorypath
 .attach_pid*
-.idea
-*.iml
 /target
 .sts4-cache/
 .vscode
@@ -17,3 +15,10 @@ _site/
 !petclinic.css
 
 jte-classes/*
+
+.idea
+.idea/*
+*.iml
+*.ipr
+*.iws
+*.log
